@@ -5,7 +5,8 @@
    <extension
          id="application"
          point="org.eclipse.core.runtime.applications">
-      <application>
+      <application
+            icon="icons/eclipse16.png">
          <run
                class="org.eclipsercp.hyperbola.Application">
          </run>
@@ -72,12 +73,14 @@
          label="File">
       <command
             commandId="org.eclipsercp.hyperbola.openFile"
+            icon="icons/folder.png"
             label="Open"
             style="push"
             tooltip="Open the file">
       </command>
       <command
             commandId="org.eclipsercp.hyperbola.saveFile"
+            icon="icons/disk.png"
             label="Save"
             style="push"
             tooltip="Save to the file">
@@ -88,6 +91,7 @@
       </separator>
       <command
             commandId="org.eclipsercp.hyperbola.exit"
+            icon="icons/door_out.png"
             label="Exit"
             style="push"
             tooltip="Exit the application">
@@ -98,18 +102,21 @@
          label="Node">
       <command
             commandId="org.eclipsercp.hyperbola.addNode"
+            icon="icons/add.png"
             label="Add"
             style="push"
             tooltip="Add new node">
       </command>
       <command
             commandId="org.eclipsercp.hyperbola.editNode"
+            icon="icons/application_edit.png"
             label="Edit"
             style="push"
             tooltip="Edit current node">
       </command>
       <command
             commandId="org.eclipsercp.hyperbola.deleteNode"
+            icon="icons/cross.png"
             label="Delete"
             style="push"
             tooltip="Delete current node">
@@ -122,18 +129,21 @@
          id="org.eclipsercp.hyperbola.toolbar1">
       <command
             commandId="org.eclipsercp.hyperbola.openFile"
+            icon="icons/folder.png"
             label="Open"
             style="push"
             tooltip="Open the file">
       </command>
       <command
             commandId="org.eclipsercp.hyperbola.saveFile"
+            icon="icons/disk.png"
             label="Save"
             style="push"
             tooltip="Save to the file">
       </command>
       <command
             commandId="org.eclipsercp.hyperbola.exit"
+            icon="icons/door_out.png"
             label="Exit"
             style="push"
             tooltip="Exit the application">
@@ -144,18 +154,21 @@
       </separator>
       <command
             commandId="org.eclipsercp.hyperbola.addNode"
+            icon="icons/add.png"
             label="Add"
             style="push"
             tooltip="Add new node">
       </command>
       <command
             commandId="org.eclipsercp.hyperbola.editNode"
+            icon="icons/application_edit.png"
             label="Edit"
             style="push"
             tooltip="Edit current node">
       </command>
       <command
             commandId="org.eclipsercp.hyperbola.deleteNode"
+            icon="icons/cross.png"
             label="Delete"
             style="push"
             tooltip="Delete current node">
@@ -167,6 +180,7 @@
        point="org.eclipse.ui.views">
     <view
           class="org.eclipsercp.hyperbola.view.MyView"
+          icon="icons/application_view_list.png"
           id="org.eclipsercp.hyperbola.myView"
           name="My View"
           restorable="true">

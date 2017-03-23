@@ -1,10 +1,15 @@
 package org.eclipsercp.hyperbola.view;
 
+import java.net.URL;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.layout.GridLayoutFactory;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
+import org.eclipse.jface.viewers.DelegatingStyledCellLabelProvider;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.swt.SWT;
@@ -15,6 +20,8 @@ import org.eclipsercp.hyperbola.controller.NodeController;
 import org.eclipsercp.hyperbola.model.ElementNode;
 import org.eclipsercp.hyperbola.model.GroupNode;
 import org.eclipsercp.hyperbola.model.INode;
+import org.osgi.framework.Bundle;
+import org.osgi.framework.FrameworkUtil;
 
 public class MyView extends ViewPart {
 
@@ -29,12 +36,12 @@ public class MyView extends ViewPart {
         tv.getTree().setLinesVisible(true);
 	    tv.getTree().setLayoutData(new GridData(GridData.FILL_BOTH));
 	    tv.setContentProvider(new TreeContentProvider());
-	    //tv.setLabelProvider(new FileTreeLabelProvider());
 	    
 	    TreeViewerColumn viewerColumn = new TreeViewerColumn(tv, SWT.NONE);
         viewerColumn.getColumn().setWidth(300);
         viewerColumn.getColumn().setText("Names");
-        viewerColumn.setLabelProvider(new ColumnLabelProvider());
+        viewerColumn.setLabelProvider(new DelegatingStyledCellLabelProvider(
+                new ViewLabelProvider(createImageDescriptor("icons/folder.png"), createImageDescriptor("icons/text_align_justify.png"))));
 
         GroupNode parentItem = new GroupNode("Simon Scholz Group", null, null);
         Set<INode> children = new HashSet<INode>();
@@ -63,6 +70,12 @@ public class MyView extends ViewPart {
 	public void setFocus() {
 		// TODO Auto-generated method stub
 
+	}
+	
+	private ImageDescriptor createImageDescriptor(String iconPath) {
+		Bundle bundle = FrameworkUtil.getBundle(ViewLabelProvider.class);
+		URL url = FileLocator.find(bundle, new Path(iconPath), null);
+		return ImageDescriptor.createFromURL(url);
 	}
 
 }
