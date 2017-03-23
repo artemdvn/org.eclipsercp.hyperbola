@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         id="application"
+         point="org.eclipse.core.runtime.applications">
+      <application>
+         <run
+               class="org.eclipsercp.hyperbola.Application">
+         </run>
+      </application>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            name="Hyperbola Perspective"
+            class="org.eclipsercp.hyperbola.Perspective"
+            id="org.eclipsercp.hyperbola.perspective">
+      </perspective>
+   </extension>
+   
+   <extension
+			point="org.eclipse.ui.commands">
+  <category
+        id="org.eclipsercp.hyperbola.fileCategory"
+        name="FileCategory">
+  </category>
+  <category
+        id="org.eclipsercp.hyperbola.nodeCategory"
+        name="NodeCategory">
+  </category>
+  <command
+        categoryId="org.eclipsercp.hyperbola.fileCategory"
+        id="org.eclipsercp.hyperbola.openFile"
+        name="OpenFile">
+  </command>
+  <command
+        categoryId="org.eclipsercp.hyperbola.fileCategory"
+        id="org.eclipsercp.hyperbola.saveFile"
+        name="SaveFile">
+  </command>
+  <command
+        categoryId="org.eclipsercp.hyperbola.fileCategory"
+        defaultHandler="org.eclipsercp.hyperbola.handler.ExitHandler"
+        id="org.eclipsercp.hyperbola.exit"
+        name="Exit">
+  </command>
+  <command
+        categoryId="org.eclipsercp.hyperbola.nodeCategory"
+        id="org.eclipsercp.hyperbola.addNode"
+        name="AddNode">
+  </command>
+  <command
+        categoryId="org.eclipsercp.hyperbola.nodeCategory"
+        id="org.eclipsercp.hyperbola.editNode"
+        name="EditNode">
+  </command>
+  <command
+        categoryId="org.eclipsercp.hyperbola.nodeCategory"
+        id="org.eclipsercp.hyperbola.deleteNode"
+        name="DeleteNode">
+  </command>
+	</extension>
+	
+	<extension
+			point="org.eclipse.ui.menus">
+		<menuContribution
+				locationURI="menu:org.eclipse.ui.main.menu">
+   <menu
+         id="fileMenu"
+         label="File">
+      <command
+            commandId="org.eclipsercp.hyperbola.openFile"
+            label="Open"
+            style="push"
+            tooltip="Open the file">
+      </command>
+      <command
+            commandId="org.eclipsercp.hyperbola.saveFile"
+            label="Save"
+            style="push"
+            tooltip="Save to the file">
+      </command>
+      <separator
+            name="org.eclipsercp.hyperbola.separator1"
+            visible="true">
+      </separator>
+      <command
+            commandId="org.eclipsercp.hyperbola.exit"
+            label="Exit"
+            style="push"
+            tooltip="Exit the application">
+      </command>
+   </menu>
+   <menu
+         id="nodeMenu"
+         label="Node">
+      <command
+            commandId="org.eclipsercp.hyperbola.addNode"
+            label="Add"
+            style="push"
+            tooltip="Add new node">
+      </command>
+      <command
+            commandId="org.eclipsercp.hyperbola.editNode"
+            label="Edit"
+            style="push"
+            tooltip="Edit current node">
+      </command>
+      <command
+            commandId="org.eclipsercp.hyperbola.deleteNode"
+            label="Delete"
+            style="push"
+            tooltip="Delete current node">
+      </command>
+   </menu>
+		</menuContribution>
+		<menuContribution
+				locationURI="toolbar:org.eclipse.ui.main.toolbar">
+   <toolbar
+         id="org.eclipsercp.hyperbola.toolbar1">
+      <command
+            commandId="org.eclipsercp.hyperbola.openFile"
+            label="Open"
+            style="push"
+            tooltip="Open the file">
+      </command>
+      <command
+            commandId="org.eclipsercp.hyperbola.saveFile"
+            label="Save"
+            style="push"
+            tooltip="Save to the file">
+      </command>
+      <command
+            commandId="org.eclipsercp.hyperbola.exit"
+            label="Exit"
+            style="push"
+            tooltip="Exit the application">
+      </command>
+      <separator
+            name="org.eclipsercp.hyperbola.separator2"
+            visible="true">
+      </separator>
+      <command
+            commandId="org.eclipsercp.hyperbola.addNode"
+            label="Add"
+            style="push"
+            tooltip="Add new node">
+      </command>
+      <command
+            commandId="org.eclipsercp.hyperbola.editNode"
+            label="Edit"
+            style="push"
+            tooltip="Edit current node">
+      </command>
+      <command
+            commandId="org.eclipsercp.hyperbola.deleteNode"
+            label="Delete"
+            style="push"
+            tooltip="Delete current node">
+      </command>
+   </toolbar>
+		</menuContribution>
+	</extension>
+ <extension
+       point="org.eclipse.ui.views">
+    <view
+          class="org.eclipsercp.hyperbola.view.MyView"
+          id="org.eclipsercp.hyperbola.myView"
+          name="My View"
+          restorable="true">
+    </view>
+    <view
+          class="org.eclipsercp.hyperbola.view.MyView"
+          id="org.eclipsercp.hyperbola.mySecondView"
+          name="My Second View"
+          restorable="true">
+    </view>
+ </extension>
+ <extension
+       point="org.eclipse.ui.perspectiveExtensions">
+    <perspectiveExtension
+          targetID="*">
+       <view
+             id="org.eclipsercp.hyperbola.myView"
+             minimized="false"
+             ratio="0.95"
+             relationship="top"
+             relative="org.eclipse.ui.editorss"
+             visible="true">
+       </view>
+    </perspectiveExtension>
+ </extension>
+	
+
+</plugin>
