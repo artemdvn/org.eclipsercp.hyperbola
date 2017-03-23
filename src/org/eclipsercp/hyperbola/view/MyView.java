@@ -6,6 +6,7 @@ import java.util.Set;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
@@ -15,6 +16,7 @@ import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipsercp.hyperbola.controller.NodeController;
 import org.eclipsercp.hyperbola.model.ElementNode;
@@ -60,6 +62,18 @@ public class MyView extends ViewPart {
         //ItemController.getInstance().addItem(childItem3);
         //ItemController.getInstance().addItem(childItem4);
         tv.setInput(NodeController.getInstance().getItemList());
+        
+		// Create a menu manager and create context menu
+		MenuManager menuManager = new MenuManager();
+		Menu menu = menuManager.createContextMenu(tv.getTree());
+		// set the menu on the SWT widget
+		tv.getTree().setMenu(menu);
+		// register the menu with the framework
+		getSite().registerContextMenu(menuManager, tv);
+
+		// make the viewer selection available
+		getSite().setSelectionProvider(tv);
+        
         tv.expandAll();
 
         GridLayoutFactory.fillDefaults().generateLayout(parent);
