@@ -63,16 +63,16 @@ public class MyView extends ViewPart {
         //ItemController.getInstance().addItem(childItem4);
         tv.setInput(NodeController.getInstance().getItemList());
         
-		// Create a menu manager and create context menu
-		MenuManager menuManager = new MenuManager();
-		Menu menu = menuManager.createContextMenu(tv.getTree());
-		// set the menu on the SWT widget
-		tv.getTree().setMenu(menu);
-		// register the menu with the framework
-		getSite().registerContextMenu(menuManager, tv);
-
-		// make the viewer selection available
-		getSite().setSelectionProvider(tv);
+//		// Create a menu manager and create context menu
+//		MenuManager menuManager = new MenuManager();
+//		Menu menu = menuManager.createContextMenu(tv.getTree());
+//		// set the menu on the SWT widget
+//		tv.getTree().setMenu(menu);
+//		// register the menu with the framework
+//		getSite().registerContextMenu(menuManager, tv);
+//
+//		// make the viewer selection available
+//		getSite().setSelectionProvider(tv);
         
         tv.expandAll();
 

@@ -181,8 +181,7 @@
    </toolbar>
 		</menuContribution>
   <menuContribution
-        allPopups="false"
-        locationURI="popup:org.eclipsercp.hyperbola.popup.view">
+        locationURI="popup:org.eclipsercp.hyperbola.myView?after=additions">
      <command
            commandId="org.eclipsercp.hyperbola.contextMenu"
            label="Select node"
