@@ -18,6 +18,8 @@ public class NodeEditor extends EditorPart {
 	public static final String ID = "org.eclipsercp.hyperbola.nodeEditor";
 	private NodeEditorInput input;
 	private INode node;
+	private boolean isDirty = false;
+	private Text text;
 
 	public NodeEditor() {
 		// TODO Auto-generated constructor stub
@@ -25,14 +27,12 @@ public class NodeEditor extends EditorPart {
 
 	@Override
 	public void doSave(IProgressMonitor monitor) {
-		// TODO Auto-generated method stub
-
+		setDirty(false);
 	}
 
 	@Override
 	public void doSaveAs() {
-		// TODO Auto-generated method stub
-
+		doSave(null);
 	}
 
 	@Override
@@ -46,13 +46,12 @@ public class NodeEditor extends EditorPart {
 		setInput(input);
 		node = NodeController.getInstance().getNodeById(this.input.getId());
 		setPartName(node.getTitle());
-
+	
 	}
 
 	@Override
 	public boolean isDirty() {
-		// TODO Auto-generated method stub
-		return false;
+		return isDirty;
 	}
 
 	@Override
@@ -66,7 +65,8 @@ public class NodeEditor extends EditorPart {
 		GridLayout layout = new GridLayout();
         layout.numColumns = 1;
         parent.setLayout(layout);
-        Text text = new Text(parent, SWT.MULTI | SWT.BORDER | SWT.WRAP | SWT.V_SCROLL);
+        
+        text = new Text(parent, SWT.MULTI | SWT.BORDER | SWT.WRAP | SWT.V_SCROLL);
         text.setText(input.getValue());
         text.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
@@ -74,8 +74,13 @@ public class NodeEditor extends EditorPart {
 
 	@Override
 	public void setFocus() {
-		// TODO Auto-generated method stub
-
+		text.setFocus();
+	
 	}
+	
+	private void setDirty(boolean value) {
+        isDirty = value;
+        firePropertyChange(PROP_DIRTY);
+     }
 
 }

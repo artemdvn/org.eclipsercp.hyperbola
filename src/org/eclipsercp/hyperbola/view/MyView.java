@@ -9,12 +9,15 @@ import org.eclipse.jface.viewers.DelegatingStyledCellLabelProvider;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ITreeSelection;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchPart;
@@ -30,12 +33,11 @@ public class MyView extends ViewPart {
 	private TreeViewer tv;
 	
 	// the listener we register with the selection service
-	private ISelectionListener listener = new ISelectionListener() {
-		public void selectionChanged(IWorkbenchPart sourcepart, ISelection selection) {
-			// we ignore our own selections
-			//if (sourcepart != MyView.this) {
-				showSelection(sourcepart, selection);
-			//}
+	private ISelectionChangedListener listener = new ISelectionChangedListener() {
+		@Override
+		public void selectionChanged(SelectionChangedEvent event) {
+			// TODO Auto-generated method stub
+			
 		}
 	};
 
@@ -85,7 +87,7 @@ public class MyView extends ViewPart {
 		// make the viewer selection available
 		getSite().setSelectionProvider(tv);
 		
-		getSite().getWorkbenchWindow().getSelectionService().addSelectionListener(listener);
+		tv.addSelectionChangedListener(listener);
 		
 		hookDoubleClickCommand();
         
@@ -111,8 +113,7 @@ public class MyView extends ViewPart {
 
 	@Override
 	public void setFocus() {
-		// TODO Auto-generated method stub
-
+		tv.getControl().setFocus();
 	}
 	
 	/**
@@ -131,7 +132,7 @@ public class MyView extends ViewPart {
 	
 	public void dispose() {
 		// important: We need do unregister our listener when the view is disposed
-		getSite().getWorkbenchWindow().getSelectionService().removeSelectionListener(listener);
+		//getSite().getWorkbenchWindow().getSelectionService().rremoveSelectionListener(listener);
 		super.dispose();
 	}
 	
