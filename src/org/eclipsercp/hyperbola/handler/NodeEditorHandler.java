@@ -26,8 +26,10 @@ public class NodeEditorHandler extends AbstractHandler {
 			Object obj = ((IStructuredSelection) selection).getFirstElement();
 			// if we had a selection lets open the editor
 			if (obj != null) {
-				INode todo = (INode) obj;
-				NodeEditorInput input = new NodeEditorInput(todo.hashCode());
+				INode node = (INode) obj;
+				NodeEditorInput input = new NodeEditorInput(node.getId());
+				input.setTitle(node.getTitle());
+				input.setValue(node.getValue());
 				try {
 					page.openEditor(input, NodeEditor.ID);
 				} catch (PartInitException e) {

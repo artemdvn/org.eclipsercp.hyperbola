@@ -1,9 +1,11 @@
 package org.eclipsercp.hyperbola.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class ElementNode implements INode {
 
+	private int id;
 	private String title;
 	private String value;
 	private INode parent;
@@ -11,10 +13,16 @@ public class ElementNode implements INode {
 	public ElementNode() {
 	}
 
-	public ElementNode(String title, String value, GroupNode parent) {
+	public ElementNode(int id, String title, String value, GroupNode parent) {
+		this.id = id;
 		this.title = title;
 		this.value = value;
 		this.parent = parent;
+	}
+	
+	@Override
+	public int getId() {
+		return id;
 	}
 	
 	@Override
@@ -49,7 +57,7 @@ public class ElementNode implements INode {
 	
 	@Override
 	public Set<INode> getChildren() {
-		return null;
+		return new HashSet<INode>();
 	}
 
 	@Override

@@ -7,13 +7,11 @@ import org.eclipse.ui.IPersistableElement;
 public class NodeEditorInput implements IEditorInput {
 
 	private final int id;
+	private String title;
+	private String value;
 
 	public NodeEditorInput(int id) {
 		this.id = id;
-	}
-
-	public long getId() {
-		return id;
 	}
 
 	@Override
@@ -26,9 +24,29 @@ public class NodeEditorInput implements IEditorInput {
 		return null;
 	}
 
+	public int getId() {
+		return id;
+	}
+
 	@Override
 	public String getName() {
 		return String.valueOf(id);
+	}
+	
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
 	}
 
 	@Override

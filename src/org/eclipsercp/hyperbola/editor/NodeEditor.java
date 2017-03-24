@@ -10,11 +10,14 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.EditorPart;
+import org.eclipsercp.hyperbola.controller.NodeController;
+import org.eclipsercp.hyperbola.model.INode;
 
 public class NodeEditor extends EditorPart {
 	
 	public static final String ID = "org.eclipsercp.hyperbola.nodeEditor";
 	private NodeEditorInput input;
+	private INode node;
 
 	public NodeEditor() {
 		// TODO Auto-generated constructor stub
@@ -41,6 +44,8 @@ public class NodeEditor extends EditorPart {
 		this.input = (NodeEditorInput) input;
 		setSite(site);
 		setInput(input);
+		node = NodeController.getInstance().getNodeById(this.input.getId());
+		setPartName(node.getTitle());
 
 	}
 
@@ -61,9 +66,9 @@ public class NodeEditor extends EditorPart {
 		GridLayout layout = new GridLayout();
         layout.numColumns = 1;
         parent.setLayout(layout);
-        Text text = new Text(parent, SWT.BORDER);
-        text.setText(input.getName());
-        text.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
+        Text text = new Text(parent, SWT.MULTI | SWT.BORDER | SWT.WRAP | SWT.V_SCROLL);
+        text.setText(input.getValue());
+        text.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
 	}
 

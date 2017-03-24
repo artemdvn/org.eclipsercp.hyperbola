@@ -3,6 +3,8 @@ package org.eclipsercp.hyperbola.model;
 import java.util.Set;
 
 public interface INode {
+	int getId();
+	
 	INode getParent();
 
 	void setParent(INode parent);

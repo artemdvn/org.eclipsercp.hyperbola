@@ -48,6 +48,29 @@ public class NodeController {
 		return item.getChildren().toArray(new INode[item.getChildren().size()]);
 	}
 
+	public INode getNodeById(int id) {
+		for (INode node : itemList) {
+			INode child = findNodeById(node, id);
+			if (child != null) {
+				return child;
+			}
+		}
+		return null;
+	}
+
+	private INode findNodeById(INode parent, int id) {
+		if (parent.getId() == id) {
+			return parent;
+		}
+		for (INode child : parent.getChildren()) {
+			INode foundNode = findNodeById(child, id);
+			if (foundNode != null) {
+				return foundNode;
+			}
+		}
+		return null;
+	}
+	
 	public void addItem(INode item) {
 		itemList.add(item);
 	}

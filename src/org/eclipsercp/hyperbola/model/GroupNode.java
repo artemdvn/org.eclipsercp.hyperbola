@@ -4,6 +4,7 @@ import java.util.Set;
 
 public class GroupNode implements INode {
 
+	private int id;
 	private String title;
 	private INode parent;
 	private Set<INode> children;
@@ -11,10 +12,16 @@ public class GroupNode implements INode {
 	public GroupNode() {
 	}
 
-	public GroupNode(String title, GroupNode parent, Set<INode> children) {
+	public GroupNode(int id, String title, GroupNode parent, Set<INode> children) {
+		this.id = id;
 		this.title = title;
 		this.parent = parent;
 		this.children = children;
+	}
+	
+	@Override
+	public int getId() {
+		return id;
 	}
 
 	@Override
