@@ -1,5 +1,9 @@
 package org.eclipsercp.hyperbola.view;
 
+import java.net.URL;
+
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.resource.LocalResourceManager;
@@ -11,16 +15,14 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipsercp.hyperbola.model.ElementNode;
 import org.eclipsercp.hyperbola.model.GroupNode;
 import org.eclipsercp.hyperbola.model.INode;
+import org.osgi.framework.Bundle;
+import org.osgi.framework.FrameworkUtil;
 
 public class ViewLabelProvider extends LabelProvider implements IStyledLabelProvider {
 
-	private ImageDescriptor groupImage;
-	private ImageDescriptor elementImage;
 	private ResourceManager resourceManager;
 
-	public ViewLabelProvider(ImageDescriptor groupImage, ImageDescriptor elementImage) {
-		this.groupImage = groupImage;
-		this.elementImage = elementImage;
+	public ViewLabelProvider() {
 	}
 
 	@Override
@@ -32,9 +34,9 @@ public class ViewLabelProvider extends LabelProvider implements IStyledLabelProv
 	@Override
 	public Image getImage(Object element) {
 		if (element instanceof GroupNode) {
-			return getResourceManager().createImage(groupImage);
+			return getResourceManager().createImage(createImageDescriptor("icons/folder.png"));
 		} else if (element instanceof ElementNode) {
-			return getResourceManager().createImage(elementImage);
+			return getResourceManager().createImage(createImageDescriptor("icons/text_align_justify.png"));
 		}
 
 		return super.getImage(element);
@@ -54,6 +56,12 @@ public class ViewLabelProvider extends LabelProvider implements IStyledLabelProv
 			resourceManager = new LocalResourceManager(JFaceResources.getResources());
 		}
 		return resourceManager;
+	}
+	
+	private ImageDescriptor createImageDescriptor(String iconPath) {
+		Bundle bundle = FrameworkUtil.getBundle(ViewLabelProvider.class);
+		URL url = FileLocator.find(bundle, new Path(iconPath), null);
+		return ImageDescriptor.createFromURL(url);
 	}
 
 }

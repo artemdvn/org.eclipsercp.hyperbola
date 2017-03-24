@@ -67,6 +67,16 @@
         id="org.eclipsercp.hyperbola.contextMenu"
         name="ContextMenu">
   </command>
+  <command
+        defaultHandler="org.eclipsercp.hyperbola.handler.ContextMenuHandler"
+        id="org.eclipsercp.hyperbola.contextMenuAddNode"
+        name="ContextMenuAddNode">
+  </command>
+  <command
+        defaultHandler="org.eclipsercp.hyperbola.handler.NodeEditorHandler"
+        id="org.eclipsercp.hyperbola.openNodeEditor"
+        name="OpenNodeEditor">
+  </command>
 	</extension>
 	
 	<extension
@@ -187,21 +197,20 @@
            label="Select node"
            style="push">
      </command>
-  </menuContribution>
-  <menuContribution
-        allPopups="false"
-        locationURI="popup:org.eclipsercp.hyperbola.popup.view">
      <command
-           commandId="org.eclipsercp.hyperbola.contextMenu"
+           commandId="org.eclipsercp.hyperbola.contextMenuAddNode"
+           label="Add node"
            style="push">
-     </command>
-  </menuContribution>
-  <menuContribution
-        allPopups="false"
-        locationURI="popup:org.eclipsercp.hyperbola.popup">
-     <command
-           commandId="org.eclipsercp.hyperbola.contextMenu"
-           style="push">
+           <visibleWhen>
+               <with
+                     variable="selection">
+                  <iterate ifEmpty="false">
+                     <adapt
+                           type="org.eclipsercp.hyperbola.model.ElementNode">
+                     </adapt>
+                  </iterate>
+               </with>
+            </visibleWhen>
      </command>
   </menuContribution>
 	</extension>
@@ -214,12 +223,15 @@
           name="My View"
           restorable="true">
     </view>
-    <view
-          class="org.eclipsercp.hyperbola.view.MyView"
-          id="org.eclipsercp.hyperbola.mySecondView"
-          name="My Second View"
-          restorable="true">
-    </view>
+ </extension>
+ <extension
+       point="org.eclipse.ui.editors">
+    <editor
+          class="org.eclipsercp.hyperbola.editor.NodeEditor"
+          default="false"
+          id="org.eclipsercp.hyperbola.nodeEditor"
+          name="Node Editor">
+    </editor>
  </extension>
  <extension
        point="org.eclipse.ui.perspectiveExtensions">

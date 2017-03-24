@@ -1,31 +1,43 @@
 package org.eclipsercp.hyperbola.view;
 
-import java.net.URL;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.layout.GridLayoutFactory;
-import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.DelegatingStyledCellLabelProvider;
+import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IDoubleClickListener;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.ITreeSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
+import org.eclipse.ui.ISelectionListener;
+import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipsercp.hyperbola.controller.NodeController;
 import org.eclipsercp.hyperbola.model.ElementNode;
 import org.eclipsercp.hyperbola.model.GroupNode;
 import org.eclipsercp.hyperbola.model.INode;
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
 
 public class MyView extends ViewPart {
+	
+	private TreeViewer tv;
+	
+	// the listener we register with the selection service
+	private ISelectionListener listener = new ISelectionListener() {
+		public void selectionChanged(IWorkbenchPart sourcepart, ISelection selection) {
+			// we ignore our own selections
+			//if (sourcepart != MyView.this) {
+				showSelection(sourcepart, selection);
+			//}
+		}
+	};
 
 	public MyView() {
 		// TODO Auto-generated constructor stub
@@ -33,7 +45,7 @@ public class MyView extends ViewPart {
 
 	@Override
 	public void createPartControl(Composite parent) {
-		final TreeViewer tv = new TreeViewer(parent);
+		tv = new TreeViewer(parent);
 		tv.getTree().setHeaderVisible(true);
         tv.getTree().setLinesVisible(true);
 	    tv.getTree().setLayoutData(new GridData(GridData.FILL_BOTH));
@@ -42,8 +54,7 @@ public class MyView extends ViewPart {
 	    TreeViewerColumn viewerColumn = new TreeViewerColumn(tv, SWT.NONE);
         viewerColumn.getColumn().setWidth(300);
         viewerColumn.getColumn().setText("Names");
-        viewerColumn.setLabelProvider(new DelegatingStyledCellLabelProvider(
-                new ViewLabelProvider(createImageDescriptor("icons/folder.png"), createImageDescriptor("icons/text_align_justify.png"))));
+        viewerColumn.setLabelProvider(new DelegatingStyledCellLabelProvider(new ViewLabelProvider()));
 
         GroupNode parentItem = new GroupNode("Simon Scholz Group", null, null);
         Set<INode> children = new HashSet<INode>();
@@ -63,21 +74,39 @@ public class MyView extends ViewPart {
         //ItemController.getInstance().addItem(childItem4);
         tv.setInput(NodeController.getInstance().getItemList());
         
-//		// Create a menu manager and create context menu
-//		MenuManager menuManager = new MenuManager();
-//		Menu menu = menuManager.createContextMenu(tv.getTree());
-//		// set the menu on the SWT widget
-//		tv.getTree().setMenu(menu);
-//		// register the menu with the framework
-//		getSite().registerContextMenu(menuManager, tv);
-//
-//		// make the viewer selection available
-//		getSite().setSelectionProvider(tv);
+		// Create a menu manager and create context menu
+		MenuManager menuManager = new MenuManager();
+		Menu menu = menuManager.createContextMenu(tv.getTree());
+		// set the menu on the SWT widget
+		tv.getTree().setMenu(menu);
+		// register the menu with the framework
+		getSite().registerContextMenu(menuManager, tv);
+
+		// make the viewer selection available
+		getSite().setSelectionProvider(tv);
+		
+		getSite().getWorkbenchWindow().getSelectionService().addSelectionListener(listener);
+		
+		hookDoubleClickCommand();
         
         tv.expandAll();
 
         GridLayoutFactory.fillDefaults().generateLayout(parent);
         
+	}
+	
+	private void hookDoubleClickCommand() {
+		tv.addDoubleClickListener(new IDoubleClickListener() {
+			@Override
+			public void doubleClick(DoubleClickEvent event) {
+				IHandlerService handlerService = getSite().getService(IHandlerService.class);
+				try {
+					handlerService.executeCommand("org.eclipsercp.hyperbola.openNodeEditor", null);
+				} catch (Exception ex) {
+					throw new RuntimeException(ex.getMessage());
+				}
+			}
+		});
 	}
 
 	@Override
@@ -86,10 +115,24 @@ public class MyView extends ViewPart {
 
 	}
 	
-	private ImageDescriptor createImageDescriptor(String iconPath) {
-		Bundle bundle = FrameworkUtil.getBundle(ViewLabelProvider.class);
-		URL url = FileLocator.find(bundle, new Path(iconPath), null);
-		return ImageDescriptor.createFromURL(url);
+	/**
+	 * Shows the given selection in this view.
+	 */
+	public void showSelection(IWorkbenchPart sourcepart, ISelection selection) {
+		setContentDescription("");
+		if (selection instanceof ITreeSelection) {
+			ITreeSelection ts = (ITreeSelection) selection;
+			Object firstElement = ts.getFirstElement();
+			if (firstElement instanceof GroupNode) {
+				setContentDescription(((GroupNode) firstElement).getTitle());
+			}
+		}
 	}
-
+	
+	public void dispose() {
+		// important: We need do unregister our listener when the view is disposed
+		getSite().getWorkbenchWindow().getSelectionService().removeSelectionListener(listener);
+		super.dispose();
+	}
+	
 }
