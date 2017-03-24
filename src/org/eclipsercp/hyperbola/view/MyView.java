@@ -17,10 +17,7 @@ import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Menu;
-import org.eclipse.ui.ISelectionListener;
-import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipsercp.hyperbola.controller.NodeController;
@@ -36,7 +33,7 @@ public class MyView extends ViewPart {
 	private ISelectionChangedListener listener = new ISelectionChangedListener() {
 		@Override
 		public void selectionChanged(SelectionChangedEvent event) {
-			// TODO Auto-generated method stub
+			showSelection(event.getSelection());
 			
 		}
 	};
@@ -119,7 +116,7 @@ public class MyView extends ViewPart {
 	/**
 	 * Shows the given selection in this view.
 	 */
-	public void showSelection(IWorkbenchPart sourcepart, ISelection selection) {
+	public void showSelection(ISelection selection) {
 		setContentDescription("");
 		if (selection instanceof ITreeSelection) {
 			ITreeSelection ts = (ITreeSelection) selection;
@@ -132,7 +129,7 @@ public class MyView extends ViewPart {
 	
 	public void dispose() {
 		// important: We need do unregister our listener when the view is disposed
-		//getSite().getWorkbenchWindow().getSelectionService().rremoveSelectionListener(listener);
+		//getSite().getWorkbenchWindow().getSelectionService().removeSelectionListener(listener);
 		super.dispose();
 	}
 	

@@ -36,7 +36,7 @@ public class GroupNode implements INode {
 
 	@Override
 	public String getValue() {
-		return null;
+		return getTitle();
 	}
 
 	@Override
