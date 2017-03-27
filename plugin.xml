@@ -33,11 +33,13 @@
   </category>
   <command
         categoryId="org.eclipsercp.hyperbola.fileCategory"
+        defaultHandler="org.eclipsercp.hyperbola.handler.OpenFileHandler"
         id="org.eclipsercp.hyperbola.openFile"
         name="OpenFile">
   </command>
   <command
         categoryId="org.eclipsercp.hyperbola.fileCategory"
+        defaultHandler="org.eclipsercp.hyperbola.handler.SaveFileHandler"
         id="org.eclipsercp.hyperbola.saveFile"
         name="SaveFile">
   </command>

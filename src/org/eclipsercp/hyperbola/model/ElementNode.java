@@ -8,7 +8,7 @@ public class ElementNode implements INode {
 	private int id;
 	private String title;
 	private String value;
-	private INode parent;
+	private transient INode parent;
 	
 	public ElementNode() {
 	}

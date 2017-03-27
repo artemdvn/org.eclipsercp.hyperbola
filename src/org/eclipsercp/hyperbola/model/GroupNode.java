@@ -6,7 +6,7 @@ public class GroupNode implements INode {
 
 	private int id;
 	private String title;
-	private INode parent;
+	private transient INode parent;
 	private Set<INode> children;
 
 	public GroupNode() {
