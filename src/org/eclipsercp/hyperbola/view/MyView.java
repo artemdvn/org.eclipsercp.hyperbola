@@ -40,6 +40,10 @@ public class MyView extends ViewPart {
 
 	public MyView() {
 		// TODO Auto-generated constructor stub
+	}	
+
+	public TreeViewer getTv() {
+		return tv;
 	}
 
 	@Override

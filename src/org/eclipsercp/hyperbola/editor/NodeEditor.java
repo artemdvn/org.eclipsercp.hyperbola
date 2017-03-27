@@ -10,11 +10,14 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
+import org.eclipse.ui.IViewPart;
+import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.EditorPart;
 import org.eclipsercp.hyperbola.controller.NodeController;
 import org.eclipsercp.hyperbola.model.GroupNode;
 import org.eclipsercp.hyperbola.model.INode;
+import org.eclipsercp.hyperbola.view.MyView;
 
 public class NodeEditor extends EditorPart {
 	
@@ -37,6 +40,14 @@ public class NodeEditor extends EditorPart {
 			node.setValue(text.getText());
 		}
 		setDirty(false);
+		
+		//refresh node tree
+		for (IViewReference ref : getSite().getPage().getViewReferences()) {
+			IViewPart view = ref.getView(false);
+			if (view instanceof MyView) {
+				((MyView) view).getTv().refresh();
+			}
+		}
 	}
 
 	@Override

@@ -95,7 +95,7 @@
       </command>
       <command
             commandId="org.eclipsercp.hyperbola.saveFile"
-            icon="icons/disk.png"
+            icon="icons/drive_disk.png"
             label="Save"
             style="push"
             tooltip="Save to the file">
@@ -136,6 +136,20 @@
             style="push"
             tooltip="Delete current node">
       </command>
+      <command
+            commandId="org.eclipse.ui.file.save"
+            icon="icons/disk.png"
+            label="Save Node"
+            style="push"
+            tooltip="Save node">
+      </command>
+      <command
+            commandId="org.eclipse.ui.file.saveAll"
+            icon="icons/disk_multiple.png"
+            label="Save All Nodes"
+            style="push"
+            tooltip="Save all nodes">
+      </command>
    </menu>
 		</menuContribution>
 		<menuContribution
@@ -151,7 +165,7 @@
       </command>
       <command
             commandId="org.eclipsercp.hyperbola.saveFile"
-            icon="icons/disk.png"
+            icon="icons/drive_disk.png"
             label="Save"
             style="push"
             tooltip="Save to the file">
@@ -187,6 +201,20 @@
             label="Delete"
             style="push"
             tooltip="Delete current node">
+      </command>
+      <command
+            commandId="org.eclipse.ui.file.save"
+            icon="icons/disk.png"
+            label="Save Node"
+            style="push"
+            tooltip="Save node">
+      </command>
+      <command
+            commandId="org.eclipse.ui.file.saveAll"
+            icon="icons/disk_multiple.png"
+            label="Save All Nodes"
+            style="push"
+            tooltip="Save all nodes">
       </command>
    </toolbar>
 		</menuContribution>
