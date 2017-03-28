@@ -141,6 +141,13 @@
             label="Add"
             style="push"
             tooltip="Add new node">
+            <visibleWhen>
+               <with
+                     variable="selection">
+                  <iterate ifEmpty="false">
+                  </iterate>
+               </with>
+            </visibleWhen>
       </command>
       <command
             commandId="org.eclipsercp.hyperbola.addGroup"
@@ -228,6 +235,13 @@
             label="Add"
             style="push"
             tooltip="Add new node">
+            <visibleWhen>
+               <with
+                     variable="selection">
+                  <iterate ifEmpty="false">
+                  </iterate>
+               </with>
+            </visibleWhen>
       </command>
       <command
             commandId="org.eclipsercp.hyperbola.addGroup"
@@ -288,6 +302,13 @@
            label="Add node"
            style="push"
            tooltip="Add new node">
+           <visibleWhen>
+               <with
+                     variable="selection">
+                  <iterate ifEmpty="false">
+                  </iterate>
+               </with>
+            </visibleWhen>
      </command>
      <command
            commandId="org.eclipsercp.hyperbola.addGroup"

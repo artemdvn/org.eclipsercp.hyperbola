@@ -42,9 +42,11 @@ public class DeleteNodeHandler extends AbstractHandler {
 					INode node = (INode) obj;
 					NodeController.getInstance().deleteItem(node);
 					
-					//close node editor
-					NodeEditorInput input = new NodeEditorInput(node.getId());
-					page.closeEditor(page.findEditor(input), false);
+					// close node editors
+					page.closeEditor(page.findEditor(new NodeEditorInput(node.getId())), false);
+					for (INode child : node.getChildren()) {
+						page.closeEditor(page.findEditor(new NodeEditorInput(child.getId())), false);
+					}
 					
 					// refresh node tree
 					for (IViewReference ref : page.getViewReferences()) {

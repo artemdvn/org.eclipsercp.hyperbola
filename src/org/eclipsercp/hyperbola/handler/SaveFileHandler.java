@@ -2,6 +2,8 @@ package org.eclipsercp.hyperbola.handler;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -27,8 +29,12 @@ public class SaveFileHandler extends AbstractHandler {
 		if (fullName != null){
 			
 			try (FileWriter file = new FileWriter(fullName)) {
-				Gson gson = new GsonBuilder().registerTypeAdapter(INode.class, new InterfaceAdapter<INode>())
-		                .create();
+				Gson gson = new GsonBuilder()
+						.registerTypeAdapter(INode.class, new InterfaceAdapter<INode>())
+						.create();
+				///*change here*/Gson gson = new GsonBuilder()
+				//		.registerTypeHierarchyAdapter(INode.class, new InterfaceAdapter<INode>())
+				//		.create();
 				gson.toJson(NodeController.getInstance().getItemList(), file);
 			} catch (IOException e) {
 				e.printStackTrace();
