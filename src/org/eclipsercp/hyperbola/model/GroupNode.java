@@ -1,5 +1,6 @@
 package org.eclipsercp.hyperbola.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class GroupNode implements INode {
@@ -9,16 +10,15 @@ public class GroupNode implements INode {
 	private int id;
 	private String title;
 	private transient INode parent;
-	private Set<INode> children;
+	private Set<INode> children = new HashSet<INode>();
 
 	public GroupNode() {
 	}
 
-	public GroupNode(int id, String title, GroupNode parent, Set<INode> children) {
+	public GroupNode(int id, String title, INode parent) {
 		this.id = id;
 		this.title = title;
 		this.parent = parent;
-		this.children = children;
 	}
 	
 	@Override

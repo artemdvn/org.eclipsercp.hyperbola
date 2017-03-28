@@ -23,7 +23,7 @@ import org.eclipsercp.hyperbola.model.INode;
 import org.eclipsercp.hyperbola.service.MessageBoxService;
 import org.eclipsercp.hyperbola.view.MyView;
 
-public class AddNodeHandler extends AbstractHandler {
+public class AddGroupHandler extends AbstractHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
@@ -47,23 +47,23 @@ public class AddNodeHandler extends AbstractHandler {
 			}
 		}
 
-		InputDialog dlg = new InputDialog(window.getShell(), "Add new node", "Enter the title of the new node:", "",
+		InputDialog dlg = new InputDialog(window.getShell(), "Add new group", "Enter the title of the new group:", "",
 				null);
 		if (dlg.open() == Window.OK) {
 
 			String titleOfNewNode = dlg.getValue();
 			if (titleOfNewNode.length() == 0) {
 				MessageBox dia = MessageBoxService.getInstance().getMessageBox(SWT.ICON_INFORMATION | SWT.OK,
-						"Empty title", "The title of the new node cannot be empty!");
+						"Empty title", "The title of the new group cannot be empty!");
 				dia.open();
 				return null;
 			}
 
-			ElementNode newNode = new ElementNode(NodeController.getMaxId(), titleOfNewNode, "", parentOfNewNode);
+			GroupNode newGroup = new GroupNode(NodeController.getMaxId(), titleOfNewNode, parentOfNewNode);
 			if (parentOfNewNode != null) {
-				parentOfNewNode.getChildren().add(newNode);
+				parentOfNewNode.getChildren().add(newGroup);
 			} else {
-				NodeController.getInstance().addItem(newNode);
+				NodeController.getInstance().addItem(newGroup);
 			}
 
 			// refresh node tree
@@ -73,7 +73,7 @@ public class AddNodeHandler extends AbstractHandler {
 					TreeViewer tv = ((MyView) view).getTv();
 					tv.setInput(NodeController.getInstance().getItemList());
 					tv.refresh();
-					tv.expandToLevel(newNode.getParent(), AbstractTreeViewer.ALL_LEVELS);
+					tv.expandToLevel(newGroup.getParent(), AbstractTreeViewer.ALL_LEVELS);
 				}
 			}
 		}

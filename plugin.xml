@@ -57,6 +57,12 @@
   </command>
   <command
         categoryId="org.eclipsercp.hyperbola.nodeCategory"
+        defaultHandler="org.eclipsercp.hyperbola.handler.AddGroupHandler"
+        id="org.eclipsercp.hyperbola.addGroup"
+        name="AddGroup">
+  </command>
+  <command
+        categoryId="org.eclipsercp.hyperbola.nodeCategory"
         defaultHandler="org.eclipsercp.hyperbola.handler.NodeEditorHandler"
         id="org.eclipsercp.hyperbola.editNode"
         name="EditNode">
@@ -135,13 +141,13 @@
             label="Add"
             style="push"
             tooltip="Add new node">
-            <visibleWhen>
-               <with
-                     variable="selection">
-                  <iterate ifEmpty="false">
-                  </iterate>
-               </with>
-            </visibleWhen>
+      </command>
+      <command
+            commandId="org.eclipsercp.hyperbola.addGroup"
+            icon="icons/folder_add.png"
+            label="Add Group"
+            style="push"
+            tooltip="Add new group">
       </command>
       <command
             commandId="org.eclipsercp.hyperbola.editNode"
@@ -222,13 +228,13 @@
             label="Add"
             style="push"
             tooltip="Add new node">
-            <visibleWhen>
-               <with
-                     variable="selection">
-                  <iterate ifEmpty="false">
-                  </iterate>
-               </with>
-            </visibleWhen>
+      </command>
+      <command
+            commandId="org.eclipsercp.hyperbola.addGroup"
+            icon="icons/folder_add.png"
+            label="Add Group"
+            style="push"
+            tooltip="Add new group">
       </command>
       <command
             commandId="org.eclipsercp.hyperbola.editNode"
@@ -277,22 +283,18 @@
   <menuContribution
         locationURI="popup:org.eclipsercp.hyperbola.myView?after=additions">
      <command
-           commandId="org.eclipsercp.hyperbola.contextMenu"
-           label="Select node"
-           style="push">
-     </command>
-     <command
            commandId="org.eclipsercp.hyperbola.addNode"
            icon="icons/add.png"
            label="Add node"
-           style="push">
-           <visibleWhen>
-               <with
-                     variable="selection">
-                  <iterate ifEmpty="false">
-                  </iterate>
-               </with>
-            </visibleWhen>           
+           style="push"
+           tooltip="Add new node">
+     </command>
+     <command
+           commandId="org.eclipsercp.hyperbola.addGroup"
+           icon="icons/folder_add.png"
+           label="Add Group"
+           style="push"
+           tooltip="Add new group">
      </command>
       <command
             commandId="org.eclipsercp.hyperbola.editNode"

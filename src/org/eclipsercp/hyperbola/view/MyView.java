@@ -1,17 +1,10 @@
 package org.eclipsercp.hyperbola.view;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.viewers.DelegatingStyledCellLabelProvider;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.ITreeSelection;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.swt.SWT;
@@ -23,21 +16,11 @@ import org.eclipse.ui.part.ViewPart;
 import org.eclipsercp.hyperbola.controller.NodeController;
 import org.eclipsercp.hyperbola.model.ElementNode;
 import org.eclipsercp.hyperbola.model.GroupNode;
-import org.eclipsercp.hyperbola.model.INode;
 
 public class MyView extends ViewPart {
 	
 	private TreeViewer tv;
 	
-	// the listener we register with the selection service
-	private ISelectionChangedListener listener = new ISelectionChangedListener() {
-		@Override
-		public void selectionChanged(SelectionChangedEvent event) {
-			showSelection(event.getSelection());
-			
-		}
-	};
-
 	public MyView() {
 		// TODO Auto-generated constructor stub
 	}	
@@ -59,22 +42,17 @@ public class MyView extends ViewPart {
         viewerColumn.getColumn().setText("Names");
         viewerColumn.setLabelProvider(new DelegatingStyledCellLabelProvider(new ViewLabelProvider()));
 
-        GroupNode parentItem = new GroupNode(NodeController.getMaxId(), "Simon Scholz Group", null, null);
-        Set<INode> children = new HashSet<INode>();
+        //initial data
+        GroupNode parentItem = new GroupNode(NodeController.getMaxId(), "Simon Scholz Group", null);
         ElementNode childItem1 = new ElementNode(NodeController.getMaxId(), "Lars Vogel", "Lars Vogel", parentItem);
         ElementNode childItem2 = new ElementNode(NodeController.getMaxId(), "Dirk Fauth", "Dirk Fauth", parentItem);
         ElementNode childItem3 = new ElementNode(NodeController.getMaxId(), "Wim Jongman", "Wim Jongman", parentItem);
         ElementNode childItem4 = new ElementNode(NodeController.getMaxId(), "Tom Schindl", "Tom Schindl", parentItem);
-        children.add(childItem1);
-        children.add(childItem2);
-        children.add(childItem3);
-        children.add(childItem4);
-        parentItem.setChildren(children);
+        parentItem.getChildren().add(childItem1);
+        parentItem.getChildren().add(childItem2);
+        parentItem.getChildren().add(childItem3);
+        parentItem.getChildren().add(childItem4);
         NodeController.getInstance().addItem(parentItem);
-//        NodeController.getInstance().addItem(childItem1);
-//        NodeController.getInstance().addItem(childItem2);
-//        NodeController.getInstance().addItem(childItem3);
-//        NodeController.getInstance().addItem(childItem4);
         tv.setInput(NodeController.getInstance().getItemList());
         
 		// Create a menu manager and create context menu
@@ -87,8 +65,6 @@ public class MyView extends ViewPart {
 
 		// make the viewer selection available
 		getSite().setSelectionProvider(tv);
-		
-		tv.addSelectionChangedListener(listener);
 		
 		hookDoubleClickCommand();
         
@@ -115,20 +91,6 @@ public class MyView extends ViewPart {
 	@Override
 	public void setFocus() {
 		tv.getControl().setFocus();
-	}
-	
-	/**
-	 * Shows the given selection in this view.
-	 */
-	public void showSelection(ISelection selection) {
-		setContentDescription("");
-		if (selection instanceof ITreeSelection) {
-			ITreeSelection ts = (ITreeSelection) selection;
-			Object firstElement = ts.getFirstElement();
-			if (firstElement instanceof GroupNode) {
-				setContentDescription(((GroupNode) firstElement).getTitle());
-			}
-		}
 	}
 	
 	public void dispose() {
