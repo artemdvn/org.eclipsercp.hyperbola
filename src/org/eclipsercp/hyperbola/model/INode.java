@@ -1,8 +1,9 @@
 package org.eclipsercp.hyperbola.model;
 
+import java.io.Serializable;
 import java.util.Set;
 
-public interface INode {
+public interface INode extends Serializable {
 	int getId();
 	
 	INode getParent();

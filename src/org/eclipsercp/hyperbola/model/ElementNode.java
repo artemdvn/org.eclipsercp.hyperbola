@@ -5,6 +5,8 @@ import java.util.Set;
 
 public class ElementNode implements INode {
 
+	private static final long serialVersionUID = 1L;
+	
 	private int id;
 	private String title;
 	private String value;

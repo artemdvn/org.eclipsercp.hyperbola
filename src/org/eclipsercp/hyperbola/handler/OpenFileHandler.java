@@ -11,10 +11,10 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
-import org.eclipsercp.hyperbola.controller.NodeController;
 import org.eclipsercp.hyperbola.model.INode;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 public class OpenFileHandler extends AbstractHandler {
@@ -29,15 +29,15 @@ public class OpenFileHandler extends AbstractHandler {
 			return null;
 		}
 
-		Gson gson = new Gson();
-
+		Gson gson = new GsonBuilder().registerTypeAdapter(INode.class, new InterfaceAdapter<INode>())
+                .create();
+		
 		try (FileReader file = new FileReader(selectedFile)) {
 			Type listOfTestObject = new TypeToken<List<INode>>() {
 			}.getType();
 			
-			@SuppressWarnings("unchecked")
 			List<INode> itemList = (List<INode>) gson.fromJson(file, listOfTestObject);
-			NodeController.getInstance().setItemList(itemList);
+			//NodeController.getInstance().setItemList(itemList);
 			//viewer.setInput(personList);
 			//viewer.refresh();
 		} catch (IOException e) {
@@ -45,6 +45,6 @@ public class OpenFileHandler extends AbstractHandler {
 		}
 		
 		return null;
-	}
+	}	
 
 }

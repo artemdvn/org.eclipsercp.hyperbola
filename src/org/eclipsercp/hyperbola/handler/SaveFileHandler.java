@@ -10,6 +10,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipsercp.hyperbola.controller.NodeController;
+import org.eclipsercp.hyperbola.model.INode;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -26,7 +27,8 @@ public class SaveFileHandler extends AbstractHandler {
 		if (fullName != null){
 			
 			try (FileWriter file = new FileWriter(fullName)) {
-				Gson gson = new GsonBuilder().create();
+				Gson gson = new GsonBuilder().registerTypeAdapter(INode.class, new InterfaceAdapter<INode>())
+		                .create();
 				gson.toJson(NodeController.getInstance().getItemList(), file);
 			} catch (IOException e) {
 				e.printStackTrace();

@@ -11,7 +11,7 @@ import org.eclipsercp.hyperbola.model.INode;
 public class NodeController {
 
 	private static NodeController instance;
-	private List<INode> itemList = new ArrayList<INode>();
+	private List<INode> nodeList = new ArrayList<INode>();
 
 	/**
 	 * Constructs a new instance of this class or return existing instance if it
@@ -25,11 +25,11 @@ public class NodeController {
 	}
 
 	public List<INode> getItemList() {
-		return itemList;
+		return nodeList;
 	}
 
 	public void setItemList(List<INode> itemList) {
-		this.itemList = itemList;
+		this.nodeList = itemList;
 	}
 
 	public boolean hasChildren(INode item) {
@@ -49,7 +49,7 @@ public class NodeController {
 	}
 
 	public INode getNodeById(int id) {
-		for (INode node : itemList) {
+		for (INode node : nodeList) {
 			INode child = findNodeById(node, id);
 			if (child != null) {
 				return child;
@@ -71,8 +71,16 @@ public class NodeController {
 		return null;
 	}
 	
-	public void addItem(INode item) {
-		itemList.add(item);
+	public void addItem(INode node) {
+		nodeList.add(node);
+	}
+	
+	public void deleteItem(INode node) {
+		INode parent = node.getParent();
+		if (parent != null) {
+			parent.getChildren().remove(node);
+		}
+		nodeList.remove(node);
 	}
 
 }

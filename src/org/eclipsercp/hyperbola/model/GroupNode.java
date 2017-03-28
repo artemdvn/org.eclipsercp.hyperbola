@@ -4,6 +4,8 @@ import java.util.Set;
 
 public class GroupNode implements INode {
 
+	private static final long serialVersionUID = 1L;
+	
 	private int id;
 	private String title;
 	private transient INode parent;

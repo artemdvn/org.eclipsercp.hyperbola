@@ -56,11 +56,13 @@
   </command>
   <command
         categoryId="org.eclipsercp.hyperbola.nodeCategory"
+        defaultHandler="org.eclipsercp.hyperbola.handler.NodeEditorHandler"
         id="org.eclipsercp.hyperbola.editNode"
         name="EditNode">
   </command>
   <command
         categoryId="org.eclipsercp.hyperbola.nodeCategory"
+        defaultHandler="org.eclipsercp.hyperbola.handler.DeleteNodeHandler"
         id="org.eclipsercp.hyperbola.deleteNode"
         name="DeleteNode">
   </command>
@@ -80,6 +82,15 @@
         name="OpenNodeEditor">
   </command>
 	</extension>
+   <extension
+         point="org.eclipse.ui.bindings">
+      <key
+            commandId="org.eclipsercp.hyperbola.deleteNode"
+            contextId="org.eclipse.ui.contexts.window"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M1+Delete">
+      </key>
+   </extension>
 	
 	<extension
 			point="org.eclipse.ui.menus">
@@ -130,6 +141,13 @@
             label="Edit"
             style="push"
             tooltip="Edit current node">
+            <visibleWhen>
+               <with
+                     variable="selection">
+                  <iterate ifEmpty="false">
+                  </iterate>
+               </with>
+            </visibleWhen>
       </command>
       <command
             commandId="org.eclipsercp.hyperbola.deleteNode"
@@ -137,6 +155,13 @@
             label="Delete"
             style="push"
             tooltip="Delete current node">
+            <visibleWhen>
+               <with
+                     variable="selection">
+                  <iterate ifEmpty="false">
+                  </iterate>
+               </with>
+            </visibleWhen>
       </command>
       <command
             commandId="org.eclipse.ui.file.save"
@@ -196,6 +221,13 @@
             label="Edit"
             style="push"
             tooltip="Edit current node">
+            <visibleWhen>
+               <with
+                     variable="selection">
+                  <iterate ifEmpty="false">
+                  </iterate>
+               </with>
+            </visibleWhen>
       </command>
       <command
             commandId="org.eclipsercp.hyperbola.deleteNode"
@@ -203,6 +235,13 @@
             label="Delete"
             style="push"
             tooltip="Delete current node">
+            <visibleWhen>
+               <with
+                     variable="selection">
+                  <iterate ifEmpty="false">
+                  </iterate>
+               </with>
+            </visibleWhen>
       </command>
       <command
             commandId="org.eclipse.ui.file.save"
@@ -242,6 +281,35 @@
                </with>
             </visibleWhen>
      </command>
+      <command
+            commandId="org.eclipsercp.hyperbola.editNode"
+            icon="icons/application_edit.png"
+            label="Edit node"
+            style="push"
+            tooltip="Edit current node">
+            <visibleWhen>
+               <with
+                     variable="selection">
+                  <iterate ifEmpty="false">
+                  </iterate>
+               </with>
+            </visibleWhen>
+      </command>
+      <command
+            commandId="org.eclipsercp.hyperbola.deleteNode"
+            icon="icons/cross.png"
+            label="Delete node"
+            style="push"
+            tooltip="Delete current node">
+         <visibleWhen>
+            <with
+                  variable="selection">
+               <iterate
+                     ifEmpty="false">
+               </iterate>
+            </with>
+         </visibleWhen>
+      </command>
   </menuContribution>
 	</extension>
  <extension
