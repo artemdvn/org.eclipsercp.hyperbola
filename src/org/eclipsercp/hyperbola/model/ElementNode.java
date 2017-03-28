@@ -15,7 +15,7 @@ public class ElementNode implements INode {
 	public ElementNode() {
 	}
 
-	public ElementNode(int id, String title, String value, GroupNode parent) {
+	public ElementNode(int id, String title, String value, INode parent) {
 		this.id = id;
 		this.title = title;
 		this.value = value;

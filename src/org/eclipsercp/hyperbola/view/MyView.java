@@ -59,12 +59,12 @@ public class MyView extends ViewPart {
         viewerColumn.getColumn().setText("Names");
         viewerColumn.setLabelProvider(new DelegatingStyledCellLabelProvider(new ViewLabelProvider()));
 
-        GroupNode parentItem = new GroupNode(1, "Simon Scholz Group", null, null);
+        GroupNode parentItem = new GroupNode(NodeController.getMaxId(), "Simon Scholz Group", null, null);
         Set<INode> children = new HashSet<INode>();
-        ElementNode childItem1 = new ElementNode(2, "Lars Vogel", "Lars Vogel", parentItem);
-        ElementNode childItem2 = new ElementNode(3, "Dirk Fauth", "Dirk Fauth", parentItem);
-        ElementNode childItem3 = new ElementNode(4, "Wim Jongman", "Wim Jongman", parentItem);
-        ElementNode childItem4 = new ElementNode(5, "Tom Schindl", "Tom Schindl", parentItem);
+        ElementNode childItem1 = new ElementNode(NodeController.getMaxId(), "Lars Vogel", "Lars Vogel", parentItem);
+        ElementNode childItem2 = new ElementNode(NodeController.getMaxId(), "Dirk Fauth", "Dirk Fauth", parentItem);
+        ElementNode childItem3 = new ElementNode(NodeController.getMaxId(), "Wim Jongman", "Wim Jongman", parentItem);
+        ElementNode childItem4 = new ElementNode(NodeController.getMaxId(), "Tom Schindl", "Tom Schindl", parentItem);
         children.add(childItem1);
         children.add(childItem2);
         children.add(childItem3);

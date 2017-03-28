@@ -51,6 +51,7 @@
   </command>
   <command
         categoryId="org.eclipsercp.hyperbola.nodeCategory"
+        defaultHandler="org.eclipsercp.hyperbola.handler.AddNodeHandler"
         id="org.eclipsercp.hyperbola.addNode"
         name="AddNode">
   </command>
@@ -134,6 +135,13 @@
             label="Add"
             style="push"
             tooltip="Add new node">
+            <visibleWhen>
+               <with
+                     variable="selection">
+                  <iterate ifEmpty="false">
+                  </iterate>
+               </with>
+            </visibleWhen>
       </command>
       <command
             commandId="org.eclipsercp.hyperbola.editNode"
@@ -214,6 +222,13 @@
             label="Add"
             style="push"
             tooltip="Add new node">
+            <visibleWhen>
+               <with
+                     variable="selection">
+                  <iterate ifEmpty="false">
+                  </iterate>
+               </with>
+            </visibleWhen>
       </command>
       <command
             commandId="org.eclipsercp.hyperbola.editNode"
@@ -267,19 +282,17 @@
            style="push">
      </command>
      <command
-           commandId="org.eclipsercp.hyperbola.contextMenuAddNode"
+           commandId="org.eclipsercp.hyperbola.addNode"
+           icon="icons/add.png"
            label="Add node"
            style="push">
            <visibleWhen>
                <with
                      variable="selection">
                   <iterate ifEmpty="false">
-                     <adapt
-                           type="org.eclipsercp.hyperbola.model.ElementNode">
-                     </adapt>
                   </iterate>
                </with>
-            </visibleWhen>
+            </visibleWhen>           
      </command>
       <command
             commandId="org.eclipsercp.hyperbola.editNode"

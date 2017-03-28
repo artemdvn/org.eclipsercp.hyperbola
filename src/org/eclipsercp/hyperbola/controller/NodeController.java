@@ -12,6 +12,7 @@ public class NodeController {
 
 	private static NodeController instance;
 	private List<INode> nodeList = new ArrayList<INode>();
+	private static int maxId = 0;
 
 	/**
 	 * Constructs a new instance of this class or return existing instance if it
@@ -22,8 +23,12 @@ public class NodeController {
 			instance = new NodeController();
 		}
 		return instance;
-	}
+	}	
 
+	public static int getMaxId() {
+		return maxId++;
+	}
+	
 	public List<INode> getItemList() {
 		return nodeList;
 	}
