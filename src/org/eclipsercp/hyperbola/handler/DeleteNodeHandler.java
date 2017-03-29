@@ -12,11 +12,15 @@ import org.eclipsercp.hyperbola.editor.NodeEditorInput;
 import org.eclipsercp.hyperbola.model.INode;
 import org.eclipsercp.hyperbola.service.MessageBoxService;
 import org.eclipsercp.hyperbola.service.NodeService;
+import org.eclipsercp.hyperbola.service.PropertyService;
 
 /**
  * A handler to implement delete node command.
  */
 public class DeleteNodeHandler extends AbstractHandler {
+
+	private final String DELETE_NODE_TITLE = "DELETE_NODE_TITLE";
+	private final String DELETE_NODE_MESSAGE = "DELETE_NODE_MESSAGE";
 
 	private IWorkbenchPage page;
 	private INode node;
@@ -31,7 +35,8 @@ public class DeleteNodeHandler extends AbstractHandler {
 		// if we have a node selected lets delete it
 		if (obj != null) {
 			MessageBox messageBox = MessageBoxService.getInstance().getMessageBox(SWT.ICON_QUESTION | SWT.YES | SWT.NO,
-					"Delete node", "Do you really want to delete current node?");
+					PropertyService.getInstance().getPropertyValue(DELETE_NODE_TITLE),
+					PropertyService.getInstance().getPropertyValue(DELETE_NODE_MESSAGE));
 			int response = messageBox.open();
 			if (response == SWT.YES) {
 				// delete current node

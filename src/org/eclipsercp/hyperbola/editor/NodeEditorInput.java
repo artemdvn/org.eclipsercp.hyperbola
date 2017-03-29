@@ -3,9 +3,11 @@ package org.eclipsercp.hyperbola.editor;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IPersistableElement;
+import org.eclipsercp.hyperbola.service.PropertyService;
 
 public class NodeEditorInput implements IEditorInput {
 
+	private final String NODE_EDITOR_TOOLTIP = "NODE_EDITOR_TOOLTIP";
 	private final int id;
 	private String title;
 	private String value;
@@ -56,7 +58,7 @@ public class NodeEditorInput implements IEditorInput {
 
 	@Override
 	public String getToolTipText() {
-		return "Displays a node";
+		return PropertyService.getInstance().getPropertyValue(NODE_EDITOR_TOOLTIP);
 	}
 
 	@Override

@@ -17,11 +17,12 @@ import org.eclipse.ui.part.EditorPart;
 import org.eclipsercp.hyperbola.controller.NodeController;
 import org.eclipsercp.hyperbola.model.GroupNode;
 import org.eclipsercp.hyperbola.model.INode;
+import org.eclipsercp.hyperbola.service.PropertyService;
 import org.eclipsercp.hyperbola.view.MyView;
 
 public class NodeEditor extends EditorPart {
 
-	public static final String ID = "org.eclipsercp.hyperbola.nodeEditor";
+	public static final String ID = PropertyService.getInstance().getPropertyValue("NODE_EDITOR_ID");
 	private NodeEditorInput input;
 	private INode node;
 	private boolean isDirty = false;

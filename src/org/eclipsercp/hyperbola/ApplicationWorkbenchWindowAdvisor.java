@@ -6,8 +6,11 @@ import org.eclipse.ui.application.ActionBarAdvisor;
 import org.eclipse.ui.application.IActionBarConfigurer;
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 import org.eclipse.ui.application.WorkbenchWindowAdvisor;
+import org.eclipsercp.hyperbola.service.PropertyService;
 
 public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
+
+	private final String APP_WINDOW_TITLE = "APP_WINDOW_TITLE";
 
 	public ApplicationWorkbenchWindowAdvisor(IWorkbenchWindowConfigurer configurer) {
 		super(configurer);
@@ -24,15 +27,16 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 		configurer.setInitialSize(new Point(400, 300));
 		configurer.setShowCoolBar(true);
 		configurer.setShowStatusLine(false);
-		configurer.setTitle("Hyperbola"); //$NON-NLS-1$
+		configurer.setTitle(PropertyService.getInstance().getPropertyValue(APP_WINDOW_TITLE));
 	}
 
 	@Override
 	public void postWindowCreate() {
 		Shell shell = getWindowConfigurer().getWindow().getShell();
-		
-		//set initial location at the center of the display
-		shell.setLocation(shell.getDisplay().getBounds().width / 2, shell.getDisplay().getBounds().height / 2);
+
+		// set initial location at the center of the display
+		shell.setLocation(shell.getDisplay().getPrimaryMonitor().getBounds().width / 2,
+				shell.getDisplay().getPrimaryMonitor().getBounds().height / 2);
 		super.postWindowCreate();
 	}
 }

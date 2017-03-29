@@ -2,9 +2,6 @@ package org.eclipsercp.hyperbola.service;
 
 import java.util.ResourceBundle;
 
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipsercp.hyperbola.model.INode;
-
 /**
  * A service for creating new message box dialogs to inform or warn the user.
  */
@@ -24,16 +21,14 @@ public class PropertyService {
 	}
 
 	/**
-	 * Refreshes and expands tree.
+	 * Returns menu property value from resource bundle.
 	 * 
-	 * @param page
-	 *            the active page of the window
-	 * @param node
-	 *            the node to expand tree to its level
+	 * @param propertyName
+	 *            the name of the property in .properties file
 	 */
-	public void refreshTree(IWorkbenchPage page, INode node) {
-		ResourceBundle rb = ResourceBundle.getBundle("org.eclipsercp.hyperbola.service.menu");
-		System.out.println(rb.getString("user"));
+	public String getPropertyValue(String propertyName) {
+		ResourceBundle rb = ResourceBundle.getBundle("org.eclipsercp.hyperbola.service.hyperbola");
+		return rb.getString(propertyName);
 	}
 
 }

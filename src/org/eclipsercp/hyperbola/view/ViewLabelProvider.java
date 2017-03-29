@@ -15,11 +15,14 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipsercp.hyperbola.model.ElementNode;
 import org.eclipsercp.hyperbola.model.GroupNode;
 import org.eclipsercp.hyperbola.model.INode;
+import org.eclipsercp.hyperbola.service.PropertyService;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 
 public class ViewLabelProvider extends LabelProvider implements IStyledLabelProvider {
 
+	private final String TREE_ICON_GROUP = "TREE_ICON_GROUP";
+	private final String TREE_ICON_NODE = "TREE_ICON_NODE";
 	private ResourceManager resourceManager;
 
 	public ViewLabelProvider() {
@@ -34,9 +37,11 @@ public class ViewLabelProvider extends LabelProvider implements IStyledLabelProv
 	@Override
 	public Image getImage(Object element) {
 		if (element instanceof GroupNode) {
-			return getResourceManager().createImage(createImageDescriptor("icons/folder.png"));
+			return getResourceManager().createImage(
+					createImageDescriptor(PropertyService.getInstance().getPropertyValue(TREE_ICON_GROUP)));
 		} else if (element instanceof ElementNode) {
-			return getResourceManager().createImage(createImageDescriptor("icons/text_align_justify.png"));
+			return getResourceManager().createImage(
+					createImageDescriptor(PropertyService.getInstance().getPropertyValue(TREE_ICON_NODE)));
 		}
 
 		return super.getImage(element);

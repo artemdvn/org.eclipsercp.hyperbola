@@ -1,7 +1,5 @@
 package org.eclipsercp.hyperbola.handler;
 
-import java.util.ResourceBundle;
-
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
@@ -17,11 +15,17 @@ import org.eclipsercp.hyperbola.model.ElementNode;
 import org.eclipsercp.hyperbola.model.INode;
 import org.eclipsercp.hyperbola.service.MessageBoxService;
 import org.eclipsercp.hyperbola.service.NodeService;
+import org.eclipsercp.hyperbola.service.PropertyService;
 
 /**
  * A handler to implement add new node command.
  */
 public class AddNodeHandler extends AbstractHandler {
+
+	private final String ADD_NODE_TITLE = "ADD_NODE_TITLE";
+	private final String ADD_NODE_LABEL = "ADD_NODE_LABEL";
+	private final String ADD_NODE_EMPTY_TITLE = "ADD_NODE_EMPTY_TITLE";
+	private final String ADD_NODE_EMPTY_MESSAGE = "ADD_NODE_EMPTY_MESSAGE";
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
@@ -31,19 +35,18 @@ public class AddNodeHandler extends AbstractHandler {
 
 		// get the parent of a new node
 		INode parentOfNewNode = NodeService.getInstance().getParentOfCurrentNode(event);
-		
-		ResourceBundle rb = ResourceBundle.getBundle("org.eclipsercp.hyperbola.service.menu");
-		System.out.println(rb.getString("user"));
 
-		InputDialog dlg = new InputDialog(window.getShell(), "Add new node", "Enter the title of a new node:", "",
-				null);
+		InputDialog dlg = new InputDialog(window.getShell(),
+				PropertyService.getInstance().getPropertyValue(ADD_NODE_TITLE),
+				PropertyService.getInstance().getPropertyValue(ADD_NODE_LABEL), "", null);
 		if (dlg.open() == Window.OK) {
 
 			// check the title of a new node
 			String titleOfNewNode = dlg.getValue();
 			if (titleOfNewNode.length() == 0) {
 				MessageBox dia = MessageBoxService.getInstance().getMessageBox(SWT.ICON_INFORMATION | SWT.OK,
-						"Empty title", "The title of a new node cannot be empty!");
+						PropertyService.getInstance().getPropertyValue(ADD_NODE_EMPTY_TITLE),
+						PropertyService.getInstance().getPropertyValue(ADD_NODE_EMPTY_MESSAGE));
 				dia.open();
 				return null;
 			}

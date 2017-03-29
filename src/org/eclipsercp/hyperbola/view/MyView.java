@@ -16,16 +16,19 @@ import org.eclipse.ui.part.ViewPart;
 import org.eclipsercp.hyperbola.controller.NodeController;
 import org.eclipsercp.hyperbola.model.ElementNode;
 import org.eclipsercp.hyperbola.model.GroupNode;
+import org.eclipsercp.hyperbola.service.PropertyService;
 
 public class MyView extends ViewPart {
 
+	private final String NODE_EDITOR_OPEN_COMMAND = "NODE_EDITOR_OPEN_COMMAND";
 	private TreeViewer tv;
 	private IDoubleClickListener doubleClickListenerForTreeViewer = new IDoubleClickListener() {
 		@Override
 		public void doubleClick(DoubleClickEvent event) {
 			IHandlerService handlerService = getSite().getService(IHandlerService.class);
 			try {
-				handlerService.executeCommand("org.eclipsercp.hyperbola.openNodeEditor", null);
+				handlerService.executeCommand(PropertyService.getInstance().getPropertyValue(NODE_EDITOR_OPEN_COMMAND),
+						null);
 			} catch (Exception ex) {
 				throw new RuntimeException(ex.getMessage());
 			}

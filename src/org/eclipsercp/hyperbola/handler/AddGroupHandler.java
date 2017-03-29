@@ -15,11 +15,17 @@ import org.eclipsercp.hyperbola.model.GroupNode;
 import org.eclipsercp.hyperbola.model.INode;
 import org.eclipsercp.hyperbola.service.MessageBoxService;
 import org.eclipsercp.hyperbola.service.NodeService;
+import org.eclipsercp.hyperbola.service.PropertyService;
 
 /**
  * A handler to implement add new group command.
  */
 public class AddGroupHandler extends AbstractHandler {
+
+	private final String ADD_GROUP_TITLE = "ADD_GROUP_TITLE";
+	private final String ADD_GROUP_LABEL = "ADD_GROUP_LABEL";
+	private final String ADD_GROUP_EMPTY_TITLE = "ADD_GROUP_EMPTY_TITLE";
+	private final String ADD_GROUP_EMPTY_MESSAGE = "ADD_GROUP_EMPTY_MESSAGE";
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
@@ -30,14 +36,16 @@ public class AddGroupHandler extends AbstractHandler {
 		// get the parent of a new node
 		INode parentOfNewNode = NodeService.getInstance().getParentOfCurrentNode(event);
 
-		InputDialog dlg = new InputDialog(window.getShell(), "Add new group", "Enter the title of the new group:", "",
-				null);
+		InputDialog dlg = new InputDialog(window.getShell(),
+				PropertyService.getInstance().getPropertyValue(ADD_GROUP_TITLE),
+				PropertyService.getInstance().getPropertyValue(ADD_GROUP_LABEL), "", null);
 		if (dlg.open() == Window.OK) {
 
 			String titleOfNewNode = dlg.getValue();
 			if (titleOfNewNode.length() == 0) {
 				MessageBox dia = MessageBoxService.getInstance().getMessageBox(SWT.ICON_INFORMATION | SWT.OK,
-						"Empty title", "The title of the new group cannot be empty!");
+						PropertyService.getInstance().getPropertyValue(ADD_GROUP_EMPTY_TITLE),
+						PropertyService.getInstance().getPropertyValue(ADD_GROUP_EMPTY_MESSAGE));
 				dia.open();
 				return null;
 			}
