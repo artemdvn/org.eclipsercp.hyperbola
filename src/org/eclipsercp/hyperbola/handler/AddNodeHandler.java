@@ -1,5 +1,7 @@
 package org.eclipsercp.hyperbola.handler;
 
+import java.util.ResourceBundle;
+
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
@@ -29,6 +31,9 @@ public class AddNodeHandler extends AbstractHandler {
 
 		// get the parent of a new node
 		INode parentOfNewNode = NodeService.getInstance().getParentOfCurrentNode(event);
+		
+		ResourceBundle rb = ResourceBundle.getBundle("org.eclipsercp.hyperbola.service.menu");
+		System.out.println(rb.getString("user"));
 
 		InputDialog dlg = new InputDialog(window.getShell(), "Add new node", "Enter the title of a new node:", "",
 				null);
