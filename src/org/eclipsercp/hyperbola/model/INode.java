@@ -3,9 +3,12 @@ package org.eclipsercp.hyperbola.model;
 import java.io.Serializable;
 import java.util.Set;
 
+/**
+ * An interface for implementing for nodes.
+ */
 public interface INode extends Serializable {
 	int getId();
-	
+
 	INode getParent();
 
 	void setParent(INode parent);

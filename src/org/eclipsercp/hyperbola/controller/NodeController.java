@@ -6,7 +6,7 @@ import java.util.List;
 import org.eclipsercp.hyperbola.model.INode;
 
 /**
- * A service for performing CRUD operations with tree items.
+ * A controller for performing CRUD operations with tree items.
  */
 public class NodeController {
 
@@ -23,12 +23,16 @@ public class NodeController {
 			instance = new NodeController();
 		}
 		return instance;
-	}	
+	}
 
+	/**
+	 * Increments and returns the max existing node id to use for creating a new
+	 * node.
+	 */
 	public static int getMaxId() {
 		return maxId++;
 	}
-	
+
 	public List<INode> getItemList() {
 		return nodeList;
 	}
@@ -38,7 +42,7 @@ public class NodeController {
 	}
 
 	public boolean hasChildren(INode item) {
-		
+
 		if (item.getChildren() == null) {
 			return false;
 		}
@@ -75,16 +79,30 @@ public class NodeController {
 		}
 		return null;
 	}
-	
-	public void addItem(INode node) {
+
+	/**
+	 * Adds new node to the list of nodes.
+	 * 
+	 * @param node
+	 *            the node to add to the list
+	 */
+	public void addNode(INode node) {
 		nodeList.add(node);
 	}
-	
-	public void deleteItem(INode node) {
+
+	/**
+	 * Deletes existing node from the list of nodes.
+	 * 
+	 * @param node
+	 *            the node to delete from the list
+	 */
+	public void deleteNode(INode node) {
+		// first delete the node from the children of its parent
 		INode parent = node.getParent();
 		if (parent != null) {
 			parent.getChildren().remove(node);
 		}
+		// then remove the node from the list
 		nodeList.remove(node);
 	}
 

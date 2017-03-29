@@ -3,6 +3,9 @@ package org.eclipsercp.hyperbola.model;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * A class for tree leaf.
+ */
 public class ElementNode implements INode {
 
 	private static final long serialVersionUID = 1L;

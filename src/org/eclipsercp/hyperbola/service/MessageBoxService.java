@@ -7,11 +7,12 @@ import org.eclipse.swt.widgets.MessageBox;
  * A service for creating new message box dialogs to inform or warn the user.
  */
 public class MessageBoxService {
-	
+
 	private static MessageBoxService instance;
-	
+
 	/**
-	 * Constructs a new instance of this class or return existing instance if it have been already instantiated.
+	 * Constructs a new instance of this class or return existing instance if it
+	 * have been already instantiated.
 	 */
 	public static synchronized MessageBoxService getInstance() {
 		if (instance == null) {
@@ -19,7 +20,7 @@ public class MessageBoxService {
 		}
 		return instance;
 	}
-	
+
 	/**
 	 * Constructs and returns new message box dialog.
 	 * 

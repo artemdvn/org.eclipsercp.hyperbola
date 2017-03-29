@@ -20,7 +20,7 @@ import org.eclipsercp.hyperbola.model.INode;
 import org.eclipsercp.hyperbola.view.MyView;
 
 public class NodeEditor extends EditorPart {
-	
+
 	public static final String ID = "org.eclipsercp.hyperbola.nodeEditor";
 	private NodeEditorInput input;
 	private INode node;
@@ -29,7 +29,6 @@ public class NodeEditor extends EditorPart {
 	private ModifyListener textModifyListener;
 
 	public NodeEditor() {
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -40,8 +39,8 @@ public class NodeEditor extends EditorPart {
 			node.setValue(text.getText());
 		}
 		setDirty(false);
-		
-		//refresh node tree
+
+		// refresh node tree
 		for (IViewReference ref : getSite().getPage().getViewReferences()) {
 			IViewPart view = ref.getView(false);
 			if (view instanceof MyView) {
@@ -66,9 +65,7 @@ public class NodeEditor extends EditorPart {
 		setInput(input);
 		node = NodeController.getInstance().getNodeById(this.input.getId());
 		setPartName(node.getTitle());
-		
-		
-    
+
 	}
 
 	@Override
@@ -78,20 +75,19 @@ public class NodeEditor extends EditorPart {
 
 	@Override
 	public boolean isSaveAsAllowed() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public void createPartControl(Composite parent) {
 		GridLayout layout = new GridLayout();
-        layout.numColumns = 1;
-        parent.setLayout(layout);
-        
-        text = new Text(parent, SWT.MULTI | SWT.BORDER | SWT.WRAP | SWT.V_SCROLL);
-        text.setText(input.getValue());
-        text.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-        
+		layout.numColumns = 1;
+		parent.setLayout(layout);
+
+		text = new Text(parent, SWT.MULTI | SWT.BORDER | SWT.WRAP | SWT.V_SCROLL);
+		text.setText(input.getValue());
+		text.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+
 		textModifyListener = new ModifyListener() {
 			@Override
 			public void modifyText(ModifyEvent e) {
@@ -105,16 +101,15 @@ public class NodeEditor extends EditorPart {
 	@Override
 	public void setFocus() {
 		text.setFocus();
-	
+
 	}
-	
+
 	private void setDirty(boolean value) {
-        isDirty = value;
-        firePropertyChange(PROP_DIRTY);
-     }
-	
+		isDirty = value;
+		firePropertyChange(PROP_DIRTY);
+	}
+
 	public void dispose() {
-		//text.removeModifyListener(textModifyListener);
 	}
 
 }

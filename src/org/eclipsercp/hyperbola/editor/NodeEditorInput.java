@@ -32,7 +32,7 @@ public class NodeEditorInput implements IEditorInput {
 	public String getName() {
 		return String.valueOf(id);
 	}
-	
+
 	public String getTitle() {
 		return title;
 	}

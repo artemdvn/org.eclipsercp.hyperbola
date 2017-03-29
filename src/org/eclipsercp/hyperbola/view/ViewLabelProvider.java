@@ -57,7 +57,7 @@ public class ViewLabelProvider extends LabelProvider implements IStyledLabelProv
 		}
 		return resourceManager;
 	}
-	
+
 	private ImageDescriptor createImageDescriptor(String iconPath) {
 		Bundle bundle = FrameworkUtil.getBundle(ViewLabelProvider.class);
 		URL url = FileLocator.find(bundle, new Path(iconPath), null);
