@@ -2,7 +2,6 @@ package org.eclipsercp.hyperbola.handler;
 
 import java.lang.reflect.Type;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -11,13 +10,14 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
+/**
+ * An adapter for serializing and deserializing tree nodes with polymorphic types.
+ */
 public final class InterfaceAdapter<T> implements JsonSerializer<T>, JsonDeserializer<T> {
 	public JsonElement serialize(T object, Type interfaceType, JsonSerializationContext context) {
 		final JsonObject wrapper = new JsonObject();
 		wrapper.addProperty("type", object.getClass().getName());
 		wrapper.add("data", context.serialize(object));
-		///*change here*/Gson gson = new Gson();
-        ///*change here*/wrapper.add("data", gson.toJsonTree(object, interfaceType));
 		return wrapper;
 	}
 

@@ -48,7 +48,9 @@ public class NodeService {
 				TreeViewer tv = ((MyView) view).getTv();
 				tv.setInput(NodeController.getInstance().getItemList());
 				tv.refresh();
-				tv.expandToLevel(node.getParent(), AbstractTreeViewer.ALL_LEVELS);
+				if (node != null) {
+					tv.expandToLevel(node.getParent(), AbstractTreeViewer.ALL_LEVELS);
+				}
 			}
 		}
 	}

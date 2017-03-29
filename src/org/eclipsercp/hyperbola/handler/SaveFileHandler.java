@@ -2,8 +2,6 @@ package org.eclipsercp.hyperbola.handler;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -17,30 +15,29 @@ import org.eclipsercp.hyperbola.model.INode;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+/**
+ * A handler to implement save to file command.
+ */
 public class SaveFileHandler extends AbstractHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		
+
 		FileDialog dialog = new FileDialog(Display.getDefault().getActiveShell(), SWT.SAVE);
-		dialog.setFilterExtensions(new String[] {"*.json"});
+		dialog.setFilterExtensions(new String[] { "*.json" });
 		String fullName = dialog.open();
-		
-		if (fullName != null){
-			
+
+		if (fullName != null) {
+
 			try (FileWriter file = new FileWriter(fullName)) {
-				Gson gson = new GsonBuilder()
-						.registerTypeAdapter(INode.class, new InterfaceAdapter<INode>())
-						.create();
-				///*change here*/Gson gson = new GsonBuilder()
-				//		.registerTypeHierarchyAdapter(INode.class, new InterfaceAdapter<INode>())
-				//		.create();
+				Gson gson = new GsonBuilder().registerTypeAdapter(INode.class, new InterfaceAdapter<INode>()).create();
+
 				gson.toJson(NodeController.getInstance().getItemList(), file);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
-		
+
 		return null;
 	}
 

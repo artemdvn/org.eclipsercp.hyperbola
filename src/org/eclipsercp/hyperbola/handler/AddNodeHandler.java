@@ -55,8 +55,6 @@ public class AddNodeHandler extends AbstractHandler {
 			ElementNode newNode = new ElementNode(NodeController.getMaxId(), titleOfNewNode, "", parentOfNewNode);
 			if (parentOfNewNode != null) {
 				parentOfNewNode.getChildren().add(newNode);
-			} else {
-				NodeController.getInstance().addNode(newNode);
 			}
 
 			// refresh node tree

@@ -3,15 +3,16 @@ package org.eclipsercp.hyperbola.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipsercp.hyperbola.model.GroupNode;
 import org.eclipsercp.hyperbola.model.INode;
 
 /**
- * A controller for performing CRUD operations with tree items.
+ * A controller for performing CRUD operations with tree nodes.
  */
 public class NodeController {
 
 	private static NodeController instance;
-	private List<INode> nodeList = new ArrayList<INode>();
+	private List<GroupNode> nodeList = new ArrayList<GroupNode>();
 	private static int maxId = 0;
 
 	/**
@@ -33,11 +34,11 @@ public class NodeController {
 		return maxId++;
 	}
 
-	public List<INode> getItemList() {
+	public List<GroupNode> getItemList() {
 		return nodeList;
 	}
 
-	public void setItemList(List<INode> itemList) {
+	public void setItemList(List<GroupNode> itemList) {
 		this.nodeList = itemList;
 	}
 
@@ -86,7 +87,7 @@ public class NodeController {
 	 * @param node
 	 *            the node to add to the list
 	 */
-	public void addNode(INode node) {
+	public void addNode(GroupNode node) {
 		nodeList.add(node);
 	}
 

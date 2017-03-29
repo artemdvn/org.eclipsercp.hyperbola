@@ -11,17 +11,25 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
+import org.eclipse.ui.handlers.HandlerUtil;
+import org.eclipsercp.hyperbola.controller.NodeController;
+import org.eclipsercp.hyperbola.model.GroupNode;
 import org.eclipsercp.hyperbola.model.INode;
+import org.eclipsercp.hyperbola.service.NodeService;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
+/**
+ * A handler to implement open file command.
+ */
 public class OpenFileHandler extends AbstractHandler {
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		
+
 		FileDialog dialog = new FileDialog(Display.getDefault().getActiveShell(), SWT.OPEN);
 		dialog.setFilterExtensions(new String[] { "*.json" });
 		String selectedFile = dialog.open();
@@ -29,22 +37,32 @@ public class OpenFileHandler extends AbstractHandler {
 			return null;
 		}
 
-		Gson gson = new GsonBuilder().registerTypeAdapter(INode.class, new InterfaceAdapter<INode>())
-                .create();
-		
+		Gson gson = new GsonBuilder().registerTypeAdapter(INode.class, new InterfaceAdapter<INode>()).create();
+
 		try (FileReader file = new FileReader(selectedFile)) {
-			Type listOfTestObject = new TypeToken<List<INode>>() {
+			Type listOfTestObject = new TypeToken<List<GroupNode>>() {
 			}.getType();
-			
-			List<INode> itemList = (List<INode>) gson.fromJson(file, listOfTestObject);
-			//NodeController.getInstance().setItemList(itemList);
-			//viewer.setInput(personList);
-			//viewer.refresh();
+
+			List<GroupNode> itemList = (List<GroupNode>) gson.fromJson(file, listOfTestObject);
+			for (GroupNode group : itemList) {
+				setParentToChildren(group);
+			}
+			NodeController.getInstance().setItemList(itemList);
+
+			NodeService.getInstance().refreshTree(HandlerUtil.getActiveWorkbenchWindow(event).getActivePage(), null);
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		return null;
-	}	
+	}
+
+	private void setParentToChildren(INode node) {
+		for (INode child : node.getChildren()) {
+			child.setParent(node);
+			setParentToChildren(child);
+		}
+	}
 
 }

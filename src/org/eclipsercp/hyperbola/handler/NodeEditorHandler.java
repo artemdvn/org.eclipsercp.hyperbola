@@ -10,6 +10,9 @@ import org.eclipsercp.hyperbola.editor.NodeEditorInput;
 import org.eclipsercp.hyperbola.model.INode;
 import org.eclipsercp.hyperbola.service.NodeService;
 
+/**
+ * A handler to implement edit node command.
+ */
 public class NodeEditorHandler extends AbstractHandler {
 
 	@Override
