@@ -1,0 +1,36 @@
+[ "java.util.ArrayList", [ [ "org.eclipsercp.hyperbola.model.GroupNode", {
+  "id" : 0,
+  "title" : "Simon Scholz Group",
+  "children" : [ "java.util.HashSet", [ [ "org.eclipsercp.hyperbola.model.ElementNode", {
+    "id" : 4,
+    "title" : "Tom Schindl",
+    "value" : "Tom Schindl",
+    "children" : [ "java.util.HashSet", [ ] ]
+  } ], [ "org.eclipsercp.hyperbola.model.ElementNode", {
+    "id" : 3,
+    "title" : "Wim Jongman",
+    "value" : "Wim Jongman",
+    "children" : [ "java.util.HashSet", [ ] ]
+  } ], [ "org.eclipsercp.hyperbola.model.GroupNode", {
+    "id" : 5,
+    "title" : "gggggggggggtttt",
+    "children" : [ "java.util.HashSet", [ [ "org.eclipsercp.hyperbola.model.ElementNode", {
+      "id" : 6,
+      "title" : "njyhjrhert",
+      "value" : "",
+      "children" : [ "java.util.HashSet", [ ] ]
+    } ] ] ],
+    "value" : "gggggggggggtttt"
+  } ], [ "org.eclipsercp.hyperbola.model.ElementNode", {
+    "id" : 2,
+    "title" : "Dirk Fauth",
+    "value" : "Dirk Fauth",
+    "children" : [ "java.util.HashSet", [ ] ]
+  } ], [ "org.eclipsercp.hyperbola.model.ElementNode", {
+    "id" : 1,
+    "title" : "Lars Vogel",
+    "value" : "Lars Vogel",
+    "children" : [ "java.util.HashSet", [ ] ]
+  } ] ] ],
+  "value" : "Simon Scholz Group"
+} ] ] ]

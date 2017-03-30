@@ -16,7 +16,7 @@ import org.eclipsercp.hyperbola.model.INode;
 import org.eclipsercp.hyperbola.view.MyView;
 
 /**
- * A service for creating new message box dialogs to inform or warn the user.
+ * A service for additional operations with tree nodes.
  */
 public class NodeService {
 
@@ -46,7 +46,7 @@ public class NodeService {
 			IViewPart view = ref.getView(false);
 			if (view instanceof MyView) {
 				TreeViewer tv = ((MyView) view).getTv();
-				tv.setInput(NodeController.getInstance().getItemList());
+				tv.setInput(NodeController.getInstance().getNodeList());
 				tv.refresh();
 				if (node != null) {
 					tv.expandToLevel(node.getParent(), AbstractTreeViewer.ALL_LEVELS);

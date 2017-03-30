@@ -1,19 +1,12 @@
 package org.eclipsercp.hyperbola.handler;
 
-import java.io.FileWriter;
-import java.io.IOException;
-
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
-import org.eclipsercp.hyperbola.controller.NodeController;
-import org.eclipsercp.hyperbola.model.INode;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import org.eclipsercp.hyperbola.service.JsonProvider;
 
 /**
  * A handler to implement save to file command.
@@ -28,14 +21,7 @@ public class SaveFileHandler extends AbstractHandler {
 		String fullName = dialog.open();
 
 		if (fullName != null) {
-
-			try (FileWriter file = new FileWriter(fullName)) {
-				Gson gson = new GsonBuilder().registerTypeAdapter(INode.class, new InterfaceAdapter<INode>()).create();
-
-				gson.toJson(NodeController.getInstance().getItemList(), file);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			JsonProvider.saveTreeOfNodesToFile(fullName);
 		}
 
 		return null;

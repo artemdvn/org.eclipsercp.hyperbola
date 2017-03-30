@@ -3,13 +3,16 @@ package org.eclipsercp.hyperbola.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * A class for tree group.
  */
+@JsonIgnoreProperties({ "parent", "group" })
 public class GroupNode implements INode {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private int id;
 	private String title;
 	private transient INode parent;
@@ -23,7 +26,7 @@ public class GroupNode implements INode {
 		this.title = title;
 		this.parent = parent;
 	}
-	
+
 	@Override
 	public int getId() {
 		return id;

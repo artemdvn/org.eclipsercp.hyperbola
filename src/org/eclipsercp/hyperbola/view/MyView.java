@@ -68,7 +68,7 @@ public class MyView extends ViewPart {
 		parentItem.getChildren().add(childItem3);
 		parentItem.getChildren().add(childItem4);
 		NodeController.getInstance().addNode(parentItem);
-		tv.setInput(NodeController.getInstance().getItemList());
+		tv.setInput(NodeController.getInstance().getNodeList());
 
 		// Create a menu manager and create context menu
 		MenuManager menuManager = new MenuManager();

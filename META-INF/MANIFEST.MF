@@ -7,5 +7,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui,
  org.eclipse.equinox.ds
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Bundle-ClassPath: lib/gson-2.8.0.jar,
- .
+Bundle-ClassPath: .,
+ lib/gson-2.8.0.jar,
+ lib/jackson-core-2.8.7.jar,
+ lib/jackson-databind-2.8.7.jar,
+ lib/jackson-annotations-2.8.7.jar

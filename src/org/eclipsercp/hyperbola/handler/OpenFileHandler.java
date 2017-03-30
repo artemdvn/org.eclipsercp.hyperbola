@@ -1,10 +1,5 @@
 package org.eclipsercp.hyperbola.handler;
 
-import java.io.FileReader;
-import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.List;
-
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
@@ -12,21 +7,14 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.ui.handlers.HandlerUtil;
-import org.eclipsercp.hyperbola.controller.NodeController;
-import org.eclipsercp.hyperbola.model.GroupNode;
-import org.eclipsercp.hyperbola.model.INode;
+import org.eclipsercp.hyperbola.service.JsonProvider;
 import org.eclipsercp.hyperbola.service.NodeService;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 
 /**
  * A handler to implement open file command.
  */
 public class OpenFileHandler extends AbstractHandler {
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 
@@ -37,32 +25,11 @@ public class OpenFileHandler extends AbstractHandler {
 			return null;
 		}
 
-		Gson gson = new GsonBuilder().registerTypeAdapter(INode.class, new InterfaceAdapter<INode>()).create();
+		JsonProvider.loadTreeOfNodesFromFile(selectedFile);
 
-		try (FileReader file = new FileReader(selectedFile)) {
-			Type listOfTestObject = new TypeToken<List<GroupNode>>() {
-			}.getType();
-
-			List<GroupNode> itemList = (List<GroupNode>) gson.fromJson(file, listOfTestObject);
-			for (GroupNode group : itemList) {
-				setParentToChildren(group);
-			}
-			NodeController.getInstance().setItemList(itemList);
-
-			NodeService.getInstance().refreshTree(HandlerUtil.getActiveWorkbenchWindow(event).getActivePage(), null);
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		NodeService.getInstance().refreshTree(HandlerUtil.getActiveWorkbenchWindow(event).getActivePage(), null);
 
 		return null;
-	}
-
-	private void setParentToChildren(INode node) {
-		for (INode child : node.getChildren()) {
-			child.setParent(node);
-			setParentToChildren(child);
-		}
 	}
 
 }
