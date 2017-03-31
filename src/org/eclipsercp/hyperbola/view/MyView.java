@@ -148,14 +148,37 @@ public class MyView extends ViewPart {
 					IStructuredSelection selection = tv.getStructuredSelection();
 					INode firstElement = (INode) selection.getFirstElement();
 					event.data = String.valueOf(firstElement.getId());
+					return;
 				}
+				if (EditorInputTransfer.getInstance().isSupportedType(event.dataType)) {
+					
+					IStructuredSelection selection = tv.getStructuredSelection();
+					INode firstElement = (INode) selection.getFirstElement();					
+					String[] names = { String.valueOf(firstElement.getId()) };
+					
+					EditorInputTransfer.EditorInputData[] inputs = new EditorInputTransfer.EditorInputData[names.length];
+					if (names.length > 0) {
+						for (int i = 0; i < names.length; i++)
+
+							inputs[i] = EditorInputTransfer.createEditorInputData(
+
+									NodeEditor.ID, new NodeEditorInput(firstElement.getId()));
+
+						event.data = inputs;
+						return;
+					}
+				}
+				event.doit = false;
 			}
 
 			public void dragFinished(DragSourceEvent event) {
 			}
 		});
 		
-/*		source.addDragListener(new DragSourceAdapter() {
+/*		// Provide data in Text format
+		Transfer[] transferTypes = new Transfer[] { TextTransfer.getInstance(), EditorInputTransfer.getInstance() };
+		
+		DragSourceListener listener = new DragSourceAdapter() {
 			public void dragSetData(DragSourceEvent event) {
 				if (EditorInputTransfer.getInstance().isSupportedType(event.dataType)) {
 					
@@ -185,7 +208,9 @@ public class MyView extends ViewPart {
 			public void dragStart(DragSourceEvent event) {
 				super.dragStart(event);
 			}
-		});*/
+		};
+		
+		tv.addDragSupport(operations, transferTypes, listener);*/
 		
 	}
 

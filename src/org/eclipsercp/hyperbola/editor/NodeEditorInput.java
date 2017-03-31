@@ -2,10 +2,11 @@ package org.eclipsercp.hyperbola.editor;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IMemento;
 import org.eclipse.ui.IPersistableElement;
 import org.eclipsercp.hyperbola.service.PropertyService;
 
-public class NodeEditorInput implements IEditorInput {
+public class NodeEditorInput implements IEditorInput, IPersistableElement {
 
 	private final String NODE_EDITOR_TOOLTIP = "NODE_EDITOR_TOOLTIP";
 	private final int id;
@@ -86,6 +87,18 @@ public class NodeEditorInput implements IEditorInput {
 		if (id != other.id)
 			return false;
 		return true;
+	}
+
+	@Override
+	public void saveState(IMemento memento) {
+		System.out.println("memento");
+		//memento.putString(KEY_NAME, getParticipant());
+		
+	}
+
+	@Override
+	public String getFactoryId() {
+		return NodeEditor.ID;
 	}
 
 }
