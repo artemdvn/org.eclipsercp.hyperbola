@@ -66,7 +66,7 @@ public class NodeEditor extends EditorPart {
 		setInput(input);
 		node = NodeController.getInstance().getNodeById(this.input.getId());
 		setPartName(node.getTitle());
-
+	
 	}
 
 	@Override

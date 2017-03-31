@@ -6,6 +6,8 @@ import org.eclipse.ui.application.ActionBarAdvisor;
 import org.eclipse.ui.application.IActionBarConfigurer;
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 import org.eclipse.ui.application.WorkbenchWindowAdvisor;
+import org.eclipse.ui.part.EditorInputTransfer;
+import org.eclipsercp.hyperbola.editor.EditorAreaDropAdapter;
 import org.eclipsercp.hyperbola.service.PropertyService;
 
 public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
@@ -28,6 +30,9 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 		configurer.setShowCoolBar(true);
 		configurer.setShowStatusLine(false);
 		configurer.setTitle(PropertyService.getInstance().getPropertyValue(APP_WINDOW_TITLE));
+		
+		configurer.addEditorAreaTransfer(EditorInputTransfer.getInstance());
+		configurer.configureEditorAreaDropListener(new EditorAreaDropAdapter(configurer.getWindow()));
 	}
 
 	@Override

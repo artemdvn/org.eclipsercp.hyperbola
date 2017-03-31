@@ -11,6 +11,7 @@ import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DragSource;
+import org.eclipse.swt.dnd.DragSourceAdapter;
 import org.eclipse.swt.dnd.DragSourceEvent;
 import org.eclipse.swt.dnd.DragSourceListener;
 import org.eclipse.swt.dnd.DropTarget;
@@ -23,8 +24,11 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.IHandlerService;
+import org.eclipse.ui.part.EditorInputTransfer;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipsercp.hyperbola.controller.NodeController;
+import org.eclipsercp.hyperbola.editor.NodeEditor;
+import org.eclipsercp.hyperbola.editor.NodeEditorInput;
 import org.eclipsercp.hyperbola.model.ElementNode;
 import org.eclipsercp.hyperbola.model.GroupNode;
 import org.eclipsercp.hyperbola.model.INode;
@@ -127,7 +131,7 @@ public class MyView extends ViewPart {
 		DragSource source = new DragSource(tv.getTree(), operations);
 
 		// Provide data in Text format
-		Transfer[] types = new Transfer[] { TextTransfer.getInstance() };
+		Transfer[] types = new Transfer[] { TextTransfer.getInstance(), EditorInputTransfer.getInstance() };
 		source.setTransfer(types);
 
 		source.addDragListener(new DragSourceListener() {
@@ -150,8 +154,42 @@ public class MyView extends ViewPart {
 			public void dragFinished(DragSourceEvent event) {
 			}
 		});
+		
+/*		source.addDragListener(new DragSourceAdapter() {
+			public void dragSetData(DragSourceEvent event) {
+				if (EditorInputTransfer.getInstance().isSupportedType(event.dataType)) {
+					
+					IStructuredSelection selection = tv.getStructuredSelection();
+					INode firstElement = (INode) selection.getFirstElement();					
+					String[] names = { String.valueOf(firstElement.getId()) };
+					
+					EditorInputTransfer.EditorInputData[] inputs = new EditorInputTransfer.EditorInputData[names.length];
+					if (names.length > 0) {
+						for (int i = 0; i < names.length; i++)
+
+							inputs[i] = EditorInputTransfer.createEditorInputData(
+
+									NodeEditor.ID, new NodeEditorInput(firstElement.getId()));
+
+						event.data = inputs;
+						return;
+					}
+				}
+
+				event.doit = false;
+			}
+
+			public void dragFinished(DragSourceEvent event) {
+			}
+
+			public void dragStart(DragSourceEvent event) {
+				super.dragStart(event);
+			}
+		});*/
+		
 	}
 
+	
 	private void implementDrop() {
 		DropTarget target = new DropTarget(tv.getTree(), operations);
 
@@ -178,6 +216,11 @@ public class MyView extends ViewPart {
 
 			public void drop(DropTargetEvent event) {
 				if (textTransfer.isSupportedType(event.currentDataType)) {
+					
+					if (event.data == null) {
+						return;
+					}
+					
 					int nodeId = Integer.parseInt((String) event.data);
 					INode draggedNode = NodeController.getInstance().getNodeById(nodeId);
 					INode oldParentOfDraggedNode = draggedNode.getParent();
@@ -217,6 +260,6 @@ public class MyView extends ViewPart {
 				}
 			}
 		});
-	}
+	}	
 
 }
