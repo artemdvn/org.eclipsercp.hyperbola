@@ -47,7 +47,7 @@ public class DeleteNodeHandler extends AbstractHandler {
 				closeOpenedEditorsOfDeletedNodes();
 
 				// refresh node tree
-				NodeService.getInstance().refreshTree(page, node);
+				NodeService.getInstance().removeNodeFromTree(page, node);
 			}
 		}
 		return null;

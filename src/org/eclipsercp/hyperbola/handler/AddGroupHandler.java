@@ -58,8 +58,9 @@ public class AddGroupHandler extends AbstractHandler {
 				NodeController.getInstance().addNode(newGroup);
 			}
 
-			// refresh node tree
-			NodeService.getInstance().refreshTree(page, newGroup);
+			// add a new group to the tree
+			NodeService.getInstance().addNewNodeToTree(page, newGroup);
+			
 		}
 		return null;
 	}

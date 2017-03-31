@@ -57,8 +57,8 @@ public class AddNodeHandler extends AbstractHandler {
 				parentOfNewNode.getChildren().add(newNode);
 			}
 
-			// refresh node tree
-			NodeService.getInstance().refreshTree(page, newNode);
+			// add a new node to the tree
+			NodeService.getInstance().addNewNodeToTree(page, newNode);
 
 		}
 		return null;
