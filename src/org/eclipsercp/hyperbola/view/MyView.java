@@ -1,5 +1,9 @@
 package org.eclipsercp.hyperbola.view;
 
+import org.eclipse.core.commands.operations.IOperationHistory;
+import org.eclipse.core.commands.operations.IUndoContext;
+import org.eclipse.core.commands.operations.ObjectUndoContext;
+import org.eclipse.core.commands.operations.OperationHistoryFactory;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.viewers.DelegatingStyledCellLabelProvider;
@@ -23,6 +27,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.IHandlerService;
+import org.eclipse.ui.operations.RedoActionHandler;
+import org.eclipse.ui.operations.UndoActionHandler;
 import org.eclipse.ui.part.EditorInputTransfer;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipsercp.hyperbola.controller.NodeController;
@@ -51,6 +57,10 @@ public class MyView extends ViewPart {
 		}
 	};
 	private int operations;
+	
+	private UndoActionHandler undoAction;
+	private RedoActionHandler redoAction;
+	private IUndoContext undoContext;
 
 	public MyView() {
 	}
@@ -101,6 +111,8 @@ public class MyView extends ViewPart {
 
 		tv.addDoubleClickListener(doubleClickListenerForTreeViewer);
 		tv.expandAll();
+		
+		initUndoRedo();
 
 		GridLayoutFactory.fillDefaults().generateLayout(parent);
 
@@ -246,6 +258,28 @@ public class MyView extends ViewPart {
 				}
 			}
 		});
+	}
+	
+	private void initUndoRedo() {
+		undoContext = new ObjectUndoContext(this);
+		undoAction = new UndoActionHandler(getSite(), undoContext);
+		redoAction = new RedoActionHandler(getSite(), undoContext);
+	}
+	
+	public IOperationHistory getOperationHistory() {
+		// The workbench provides its own undo/redo manager
+		// return PlatformUI.getWorkbench()
+		// .getOperationSupport().getOperationHistory();
+		// which, in this case, is the same as the default undo manager
+		return OperationHistoryFactory.getOperationHistory();
+	}
+
+	public IUndoContext getUndoContext() {
+		// For workbench-wide operations, we should return
+		// return PlatformUI.getWorkbench()
+		// .getOperationSupport().getUndoContext();
+		// but our operations are all local, so return our own content
+		return undoContext;
 	}
 
 }

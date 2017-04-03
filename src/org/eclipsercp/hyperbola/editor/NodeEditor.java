@@ -1,7 +1,12 @@
 package org.eclipsercp.hyperbola.editor;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.KeyAdapter;
+import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.layout.GridData;
@@ -31,6 +36,9 @@ public class NodeEditor extends EditorPart {
 	private boolean isDirty = false;
 	private Text text;
 	private ModifyListener textModifyListener;
+
+	private List<String> undoList = new LinkedList<String>();
+	private List<String> redoList = new LinkedList<String>();
 
 	public NodeEditor() {
 	}
@@ -99,6 +107,37 @@ public class NodeEditor extends EditorPart {
 			}
 		};
 		text.addModifyListener(textModifyListener);
+
+		// adds undo/redo
+		text.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent e) {
+				if (e.keyCode == SWT.CR) {
+					undoList.add(text.getText());
+				}
+				if (((e.stateMask & SWT.CTRL) == SWT.CTRL) && (e.keyCode == 'z')) {
+					undo();
+				}
+				if (((e.stateMask & SWT.CTRL) == SWT.CTRL) && (e.keyCode == 'y')) {
+					redo();
+				}
+
+			}
+
+			private void undo() {
+				if (undoList.size() > 0) {
+					redoList.add(text.getText());
+					text.setText(undoList.remove(undoList.size() - 1));
+				}
+			}
+
+			private void redo() {
+				if (redoList.size() > 0) {
+					undoList.add(text.getText());
+					text.setText(redoList.remove(redoList.size() - 1));
+				}
+			}
+
+		});
 
 	}
 
