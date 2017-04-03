@@ -20,6 +20,9 @@ import org.eclipsercp.hyperbola.model.INode;
 import org.eclipsercp.hyperbola.service.PropertyService;
 import org.eclipsercp.hyperbola.view.MyView;
 
+/**
+ * An editor for changing content of nodes.
+ */
 public class NodeEditor extends EditorPart {
 
 	public static final String ID = PropertyService.getInstance().getPropertyValue("NODE_EDITOR_ID");
@@ -66,7 +69,7 @@ public class NodeEditor extends EditorPart {
 		setInput(input);
 		node = NodeController.getInstance().getNodeById(this.input.getId());
 		setPartName(node.getTitle());
-	
+
 	}
 
 	@Override
@@ -102,7 +105,6 @@ public class NodeEditor extends EditorPart {
 	@Override
 	public void setFocus() {
 		text.setFocus();
-
 	}
 
 	private void setDirty(boolean value) {

@@ -9,6 +9,9 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.EditorInputTransfer;
 
+/**
+ * Drop adapter, gets data from event and opens an editor.
+ */
 public class EditorAreaDropAdapter extends DropTargetAdapter {
 
 	private IWorkbenchWindow window;
@@ -16,13 +19,13 @@ public class EditorAreaDropAdapter extends DropTargetAdapter {
 	public EditorAreaDropAdapter(IWorkbenchWindow window) {
 		this.window = window;
 	}
-	
+
 	@Override
 	public void dragEnter(DropTargetEvent event) {
 		event.detail = DND.DROP_COPY;
 		super.dragEnter(event);
 	}
-	
+
 	public void drop(DropTargetEvent event) {
 
 		handleDrop(window.getActivePage(), event);
@@ -35,8 +38,7 @@ public class EditorAreaDropAdapter extends DropTargetAdapter {
 
 			for (int i = 0; i < editorInputs.length; i++) {
 				IEditorInput editorInput = editorInputs[i].input;
-				String editorId = editorInputs[i].editorId;
-				
+
 				try {
 					window.getActivePage().openEditor(editorInput, NodeEditor.ID);
 				} catch (PartInitException e) {

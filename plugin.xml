@@ -368,6 +368,13 @@
     </editor>
  </extension>
  <extension
+       point="org.eclipse.ui.elementFactories">
+    <factory
+          class="org.eclipsercp.hyperbola.editor.NodeEditorFactory"
+          id="org.eclipsercp.hyperbola.nodeEditorFactory">
+    </factory>
+ </extension>
+ <extension
        point="org.eclipse.ui.perspectiveExtensions">
     <perspectiveExtension
           targetID="*">

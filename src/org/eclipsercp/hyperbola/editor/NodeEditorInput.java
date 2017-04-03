@@ -16,6 +16,12 @@ public class NodeEditorInput implements IEditorInput, IPersistableElement {
 	public NodeEditorInput(int id) {
 		this.id = id;
 	}
+	
+	public NodeEditorInput(int id, String title, String value) {
+		this.id = id;
+		this.title = title;
+		this.value = value;
+	}
 
 	@Override
 	public boolean exists() {
@@ -54,7 +60,7 @@ public class NodeEditorInput implements IEditorInput, IPersistableElement {
 
 	@Override
 	public IPersistableElement getPersistable() {
-		return null;
+		return this;
 	}
 
 	@Override
@@ -91,14 +97,14 @@ public class NodeEditorInput implements IEditorInput, IPersistableElement {
 
 	@Override
 	public void saveState(IMemento memento) {
-		System.out.println("memento");
-		//memento.putString(KEY_NAME, getParticipant());
-		
+		memento.putString("nodeId", String.valueOf(getId()));
+		memento.putString("nodeTitle", getTitle());	
+		memento.putString("nodeValue", getValue());	
 	}
 
 	@Override
 	public String getFactoryId() {
-		return NodeEditor.ID;
+		return NodeEditorFactory.ID;
 	}
 
 }

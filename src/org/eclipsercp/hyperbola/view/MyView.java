@@ -11,7 +11,6 @@ import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DragSource;
-import org.eclipse.swt.dnd.DragSourceAdapter;
 import org.eclipse.swt.dnd.DragSourceEvent;
 import org.eclipse.swt.dnd.DragSourceListener;
 import org.eclipse.swt.dnd.DropTarget;
@@ -151,18 +150,19 @@ public class MyView extends ViewPart {
 					return;
 				}
 				if (EditorInputTransfer.getInstance().isSupportedType(event.dataType)) {
-					
+
 					IStructuredSelection selection = tv.getStructuredSelection();
-					INode firstElement = (INode) selection.getFirstElement();					
+					INode firstElement = (INode) selection.getFirstElement();
 					String[] names = { String.valueOf(firstElement.getId()) };
-					
+
 					EditorInputTransfer.EditorInputData[] inputs = new EditorInputTransfer.EditorInputData[names.length];
 					if (names.length > 0) {
 						for (int i = 0; i < names.length; i++)
 
 							inputs[i] = EditorInputTransfer.createEditorInputData(
 
-									NodeEditor.ID, new NodeEditorInput(firstElement.getId()));
+									NodeEditor.ID, new NodeEditorInput(firstElement.getId(), firstElement.getTitle(),
+											firstElement.getValue()));
 
 						event.data = inputs;
 						return;
@@ -174,51 +174,13 @@ public class MyView extends ViewPart {
 			public void dragFinished(DragSourceEvent event) {
 			}
 		});
-		
-/*		// Provide data in Text format
-		Transfer[] transferTypes = new Transfer[] { TextTransfer.getInstance(), EditorInputTransfer.getInstance() };
-		
-		DragSourceListener listener = new DragSourceAdapter() {
-			public void dragSetData(DragSourceEvent event) {
-				if (EditorInputTransfer.getInstance().isSupportedType(event.dataType)) {
-					
-					IStructuredSelection selection = tv.getStructuredSelection();
-					INode firstElement = (INode) selection.getFirstElement();					
-					String[] names = { String.valueOf(firstElement.getId()) };
-					
-					EditorInputTransfer.EditorInputData[] inputs = new EditorInputTransfer.EditorInputData[names.length];
-					if (names.length > 0) {
-						for (int i = 0; i < names.length; i++)
 
-							inputs[i] = EditorInputTransfer.createEditorInputData(
-
-									NodeEditor.ID, new NodeEditorInput(firstElement.getId()));
-
-						event.data = inputs;
-						return;
-					}
-				}
-
-				event.doit = false;
-			}
-
-			public void dragFinished(DragSourceEvent event) {
-			}
-
-			public void dragStart(DragSourceEvent event) {
-				super.dragStart(event);
-			}
-		};
-		
-		tv.addDragSupport(operations, transferTypes, listener);*/
-		
 	}
 
-	
 	private void implementDrop() {
 		DropTarget target = new DropTarget(tv.getTree(), operations);
 
-		// Receive data in Text or File format
+		// Receive data in Text format
 		final TextTransfer textTransfer = TextTransfer.getInstance();
 		Transfer[] types = new Transfer[] { textTransfer };
 		target.setTransfer(types);
@@ -241,11 +203,11 @@ public class MyView extends ViewPart {
 
 			public void drop(DropTargetEvent event) {
 				if (textTransfer.isSupportedType(event.currentDataType)) {
-					
+
 					if (event.data == null) {
 						return;
 					}
-					
+
 					int nodeId = Integer.parseInt((String) event.data);
 					INode draggedNode = NodeController.getInstance().getNodeById(nodeId);
 					INode oldParentOfDraggedNode = draggedNode.getParent();
@@ -274,7 +236,6 @@ public class MyView extends ViewPart {
 						oldParentOfDraggedNode.getChildren().remove(draggedNode);
 						newParentOfDraggedNode.getChildren().add(draggedNode);
 						draggedNode.setParent(newParentOfDraggedNode);
-
 					}
 
 					// refresh node tree
@@ -285,6 +246,6 @@ public class MyView extends ViewPart {
 				}
 			}
 		});
-	}	
+	}
 
 }
