@@ -8,14 +8,15 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.handlers.HandlerUtil;
-import org.eclipsercp.hyperbola.controller.NodeController;
-import org.eclipsercp.hyperbola.model.GroupNode;
 import org.eclipsercp.hyperbola.model.INode;
+import org.eclipsercp.hyperbola.operation.AddNodeOperation;
 import org.eclipsercp.hyperbola.service.MessageBoxService;
 import org.eclipsercp.hyperbola.service.NodeService;
 import org.eclipsercp.hyperbola.service.PropertyService;
+import org.eclipsercp.hyperbola.view.MyView;
 
 /**
  * A handler to implement add new group command.
@@ -50,17 +51,19 @@ public class AddGroupHandler extends AbstractHandler {
 				return null;
 			}
 
-			// create a new group
-			GroupNode newGroup = new GroupNode(NodeController.getMaxId(), titleOfNewNode, parentOfNewNode);
-			if (parentOfNewNode != null) {
-				parentOfNewNode.getChildren().add(newGroup);
-			} else {
-				NodeController.getInstance().addNode(newGroup);
-			}
+			final IWorkbenchPart part = HandlerUtil.getActivePart(event);
+			if (part instanceof MyView) {
+				// Build the operation to be performed.
+				AddNodeOperation op = new AddNodeOperation(page, parentOfNewNode, titleOfNewNode, true);
+				op.addContext(((MyView) part).getUndoContext());
 
-			// add a new group to the tree
-			NodeService.getInstance().addNewNodeToTree(page, newGroup);
-			
+				// Execute the operation.
+				try {
+					((MyView) part).getOperationHistory().execute(op, null, null);
+				} catch (ExecutionException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 		return null;
 	}

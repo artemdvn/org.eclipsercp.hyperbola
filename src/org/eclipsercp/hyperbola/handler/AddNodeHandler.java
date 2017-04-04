@@ -8,14 +8,15 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.handlers.HandlerUtil;
-import org.eclipsercp.hyperbola.controller.NodeController;
-import org.eclipsercp.hyperbola.model.ElementNode;
 import org.eclipsercp.hyperbola.model.INode;
+import org.eclipsercp.hyperbola.operation.AddNodeOperation;
 import org.eclipsercp.hyperbola.service.MessageBoxService;
 import org.eclipsercp.hyperbola.service.NodeService;
 import org.eclipsercp.hyperbola.service.PropertyService;
+import org.eclipsercp.hyperbola.view.MyView;
 
 /**
  * A handler to implement add new node command.
@@ -51,15 +52,19 @@ public class AddNodeHandler extends AbstractHandler {
 				return null;
 			}
 
-			// create a new node
-			ElementNode newNode = new ElementNode(NodeController.getMaxId(), titleOfNewNode, "", parentOfNewNode);
-			if (parentOfNewNode != null) {
-				parentOfNewNode.getChildren().add(newNode);
+			final IWorkbenchPart part = HandlerUtil.getActivePart(event);
+			if (part instanceof MyView) {
+				// Build the operation to be performed.
+				AddNodeOperation op = new AddNodeOperation(page, parentOfNewNode, titleOfNewNode, false);
+				op.addContext(((MyView) part).getUndoContext());
+
+				// Execute the operation.
+				try {
+					((MyView) part).getOperationHistory().execute(op, null, null);
+				} catch (ExecutionException e) {
+					e.printStackTrace();
+				}
 			}
-
-			// add a new node to the tree
-			NodeService.getInstance().addNewNodeToTree(page, newNode);
-
 		}
 		return null;
 	}
