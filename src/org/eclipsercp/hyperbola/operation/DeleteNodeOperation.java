@@ -1,5 +1,8 @@
 package org.eclipsercp.hyperbola.operation;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.operations.AbstractOperation;
 import org.eclipse.core.runtime.IAdaptable;
@@ -21,10 +24,12 @@ public class DeleteNodeOperation extends AbstractOperation {
 
 	private final String DELETE_NODE_TITLE = "DELETE_NODE_TITLE";
 	private final String DELETE_NODE_MESSAGE = "DELETE_NODE_MESSAGE";
-
+	
 	private IWorkbenchPage page;
 	private INode node;
-
+	private List<INode> undoList = new LinkedList<INode>();
+	private List<INode> redoList = new LinkedList<INode>();
+	
 	public DeleteNodeOperation(IWorkbenchPage page, INode node) {
 		super("Delete node");
 		this.page = page;
@@ -46,18 +51,6 @@ public class DeleteNodeOperation extends AbstractOperation {
 				if (response != SWT.YES) {
 					return Status.CANCEL_STATUS;
 				}
-
-				// delete current node
-				NodeController.getInstance().deleteNode(node);
-
-				// close node editors
-				closeOpenedEditorsOfDeletedNodes();
-
-				// refresh node tree
-				NodeService.getInstance().removeNodeFromTree(page, node);
-				
-				return Status.OK_STATUS;
-
 			}
 		}
 		// Perform the operation.
@@ -66,14 +59,41 @@ public class DeleteNodeOperation extends AbstractOperation {
 
 	@Override
 	public IStatus redo(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
-		// TODO Auto-generated method stub
-		return null;
+		// save node in undo list
+		undoList.add(node);
+		if (redoList.size() > 0) {
+			redoList.remove(redoList.size() - 1);
+		}
+		
+		// delete current node
+		NodeController.getInstance().deleteNode(node);
+
+		// close node editors
+		closeOpenedEditorsOfDeletedNodes();
+
+		// refresh node tree
+		NodeService.getInstance().removeNodeFromTree(page, node);
+
+		return Status.OK_STATUS;
 	}
 
 	@Override
 	public IStatus undo(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
-		// TODO Auto-generated method stub
-		return null;
+		if (undoList.size() > 0) {
+			INode nodeToAdd = undoList.remove(undoList.size() - 1);
+			redoList.add(nodeToAdd);
+			
+			INode parentOfNodeToAdd = nodeToAdd.getParent();
+			if (parentOfNodeToAdd != null) {
+				parentOfNodeToAdd.getChildren().add(nodeToAdd);
+			} else {
+				NodeController.getInstance().addNode(nodeToAdd);
+			}
+			// add a new node to the tree
+			NodeService.getInstance().addNewNodeToTree(page, nodeToAdd);
+		}
+
+		return Status.OK_STATUS;
 	}
 
 	private void closeOpenedEditorsOfDeletedNodes() {

@@ -25,7 +25,9 @@ import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
+import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.operations.RedoActionHandler;
 import org.eclipse.ui.operations.UndoActionHandler;
@@ -100,10 +102,13 @@ public class MyView extends ViewPart {
 		// Create a menu manager and create context menu
 		MenuManager menuManager = new MenuManager();
 		Menu menu = menuManager.createContextMenu(tv.getTree());
+		
 		// set the menu on the SWT widget
 		tv.getTree().setMenu(menu);
+		
 		// register the menu with the framework
 		getSite().registerContextMenu(menuManager, tv);
+		
 		// make the viewer selection available
 		getSite().setSelectionProvider(tv);
 
@@ -262,8 +267,16 @@ public class MyView extends ViewPart {
 	
 	private void initUndoRedo() {
 		undoContext = new ObjectUndoContext(this);
+
 		undoAction = new UndoActionHandler(getSite(), undoContext);
+		undoAction.setId(ActionFactory.UNDO.getId());
+
 		redoAction = new RedoActionHandler(getSite(), undoContext);
+		redoAction.setId(ActionFactory.REDO.getId());
+
+		IActionBars actionBars = getViewSite().getActionBars();
+		actionBars.getToolBarManager().add(undoAction);
+		actionBars.getToolBarManager().add(redoAction);
 	}
 	
 	public IOperationHistory getOperationHistory() {
