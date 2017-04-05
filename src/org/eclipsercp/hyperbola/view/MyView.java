@@ -242,7 +242,7 @@ public class MyView extends ViewPart {
 
 		undoAction = new UndoActionHandler(getSite(), undoContext);
 		undoAction.setId(ActionFactory.UNDO.getId());
-
+		
 		redoAction = new RedoActionHandler(getSite(), undoContext);
 		redoAction.setId(ActionFactory.REDO.getId());
 

@@ -88,6 +88,16 @@
         id="org.eclipsercp.hyperbola.openNodeEditor"
         name="OpenNodeEditor">
   </command>
+  <command
+        defaultHandler="org.eclipsercp.hyperbola.handler.UndoHandler"
+        id="org.eclipse.ui.edit.undo"
+        name="undo">
+  </command>
+  <command
+        defaultHandler="org.eclipsercp.hyperbola.handler.RedoHandler"
+        id="org.eclipse.ui.edit.redo"
+        name="redo">
+  </command>
 	</extension>
    <extension
          point="org.eclipse.ui.bindings">
@@ -97,6 +107,18 @@
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
             sequence="M1+Delete">
       </key>
+      <key
+            commandId="org.eclipse.ui.edit.redo"
+            contextId="org.eclipse.ui.contexts.window"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M1+Y">
+      </key>
+      <key
+            commandId="org.eclipse.ui.edit.undo"
+            contextId="org.eclipse.ui.contexts.window"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M1+Z">
+      </key>      
    </extension>
 	
 	<extension
