@@ -1,5 +1,6 @@
 package org.eclipsercp.hyperbola.view;
 
+import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.operations.IOperationHistory;
 import org.eclipse.core.commands.operations.IUndoContext;
 import org.eclipse.core.commands.operations.ObjectUndoContext;
@@ -26,7 +27,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.IActionBars;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.operations.RedoActionHandler;
@@ -39,7 +39,7 @@ import org.eclipsercp.hyperbola.editor.NodeEditorInput;
 import org.eclipsercp.hyperbola.model.ElementNode;
 import org.eclipsercp.hyperbola.model.GroupNode;
 import org.eclipsercp.hyperbola.model.INode;
-import org.eclipsercp.hyperbola.service.NodeService;
+import org.eclipsercp.hyperbola.operation.DragAndDropNodeOperation;
 import org.eclipsercp.hyperbola.service.PropertyService;
 
 public class MyView extends ViewPart {
@@ -59,7 +59,7 @@ public class MyView extends ViewPart {
 		}
 	};
 	private int operations;
-	
+
 	private UndoActionHandler undoAction;
 	private RedoActionHandler redoAction;
 	private IUndoContext undoContext;
@@ -102,13 +102,13 @@ public class MyView extends ViewPart {
 		// Create a menu manager and create context menu
 		MenuManager menuManager = new MenuManager();
 		Menu menu = menuManager.createContextMenu(tv.getTree());
-		
+
 		// set the menu on the SWT widget
 		tv.getTree().setMenu(menu);
-		
+
 		// register the menu with the framework
 		getSite().registerContextMenu(menuManager, tv);
-		
+
 		// make the viewer selection available
 		getSite().setSelectionProvider(tv);
 
@@ -116,7 +116,7 @@ public class MyView extends ViewPart {
 
 		tv.addDoubleClickListener(doubleClickListenerForTreeViewer);
 		tv.expandAll();
-		
+
 		initUndoRedo();
 
 		GridLayoutFactory.fillDefaults().generateLayout(parent);
@@ -221,50 +221,22 @@ public class MyView extends ViewPart {
 			public void drop(DropTargetEvent event) {
 				if (textTransfer.isSupportedType(event.currentDataType)) {
 
-					if (event.data == null) {
-						return;
+					// Build the operation to be performed.
+					DragAndDropNodeOperation op = new DragAndDropNodeOperation(event);
+					op.addContext(getUndoContext());
+
+					// Execute the operation.
+					try {
+						getOperationHistory().execute(op, null, null);
+					} catch (ExecutionException e) {
+						e.printStackTrace();
 					}
-
-					int nodeId = Integer.parseInt((String) event.data);
-					INode draggedNode = NodeController.getInstance().getNodeById(nodeId);
-					INode oldParentOfDraggedNode = draggedNode.getParent();
-
-					if (event.item == null) {
-						return;
-					}
-
-					INode newParentOfDraggedNode = (INode) event.item.getData();
-					if (newParentOfDraggedNode instanceof ElementNode) {
-						newParentOfDraggedNode = newParentOfDraggedNode.getParent();
-					}
-
-					if (!(newParentOfDraggedNode instanceof GroupNode)) {
-						return;
-					}
-
-					// can't move parent group to children group
-					if (newParentOfDraggedNode.getParent() != null) {
-						if (newParentOfDraggedNode.getParent().equals(draggedNode)) {
-							return;
-						}
-					}
-
-					if (!newParentOfDraggedNode.equals(oldParentOfDraggedNode)) {
-						oldParentOfDraggedNode.getChildren().remove(draggedNode);
-						newParentOfDraggedNode.getChildren().add(draggedNode);
-						draggedNode.setParent(newParentOfDraggedNode);
-					}
-
-					// refresh node tree
-					NodeService.getInstance().refreshTreeAfterDragAndDrop(
-							PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage(),
-							oldParentOfDraggedNode, newParentOfDraggedNode);
 
 				}
 			}
 		});
 	}
-	
+
 	private void initUndoRedo() {
 		undoContext = new ObjectUndoContext(this);
 
@@ -278,7 +250,7 @@ public class MyView extends ViewPart {
 		actionBars.getToolBarManager().add(undoAction);
 		actionBars.getToolBarManager().add(redoAction);
 	}
-	
+
 	public IOperationHistory getOperationHistory() {
 		// The workbench provides its own undo/redo manager
 		// return PlatformUI.getWorkbench()
